@@ -31,6 +31,7 @@ erDiagram
     PRODUCT {
         varchar id PK
         varchar name
+        varchar bigint
         varchar category_id FK
         varchar description
         datetime created_at
