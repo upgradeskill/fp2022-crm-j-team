@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-type ModelProduct struct {
+type Product struct {
 	ID         string    `json:"id" xml:"id" form:"id" query:"id" gorm:"type:varchar; primary_key"`
 	Name       string    `json:"name" xml:"name" form:"name" query:"name" gorm:"type:varchar; not null"`
 	SKU        uint64    `json:"sku" xml:"sku" form:"sku" query:"sku" gorm:"type:bigint; index"`

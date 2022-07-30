@@ -1,6 +1,6 @@
 package schemas
 
-type SchemaProduct struct {
+type Product struct {
 	ID         string `json:"id" validate:"uuid"`
 	Name       string `json:"name" validate:"required,lowercase"`
 	SKU        uint64 `json:"sku" validate:"required,numeric"`
