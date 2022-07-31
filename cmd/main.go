@@ -72,7 +72,10 @@ func setupDatabase() *gorm.DB {
 
 	//  Initialize all model for auto migration here
 	err = db.AutoMigrate(
+		&models.Category{},
 		&models.Product{},
+		&models.Outlet{},
+		&models.OutletProduct{},
 	)
 
 	if err != nil {
