@@ -2,6 +2,21 @@ ERD : Mini POS
 
 ```mermaid
 erDiagram
+    USER ||--|{ OUTLET : has
+    USER {
+        varchar id PK
+        varchar name
+        varchar email
+        varchar password
+        enum role "Fill with 'owner' or 'staff'"
+        varchar outlet_id "id outlet for staff"
+        datetime created_at
+        datetime updated_at
+        datetime deleted_at
+        string created_by
+        string updated_by
+        string deleted_by
+    }
     OUTLET ||--|{ OUTLET_PRODUCT : has
     OUTLET {
         varchar id PK

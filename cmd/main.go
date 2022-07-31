@@ -31,6 +31,7 @@ func main() {
 	 */
 
 	routes.NewProduct(db, app)
+	routes.NewRouteCategory(app)
 
 	/**
 	* ========================
