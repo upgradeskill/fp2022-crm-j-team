@@ -12,4 +12,5 @@ type UserInterface interface {
 	CheckEmailExistOnUpdate(email string, userId string) (*models.User, schemas.DatabaseError)
 	GetAll() (*[]models.User, schemas.DatabaseError)
 	Update(input *models.User) (*models.User, schemas.DatabaseError)
+	Delete(input *models.User) (*models.User, schemas.DatabaseError)
 }

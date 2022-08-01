@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/upgradeskill/fp2022-crm-j-team/helper"
+	"github.com/upgradeskill/fp2022-crm-j-team/helpers"
 	"github.com/upgradeskill/fp2022-crm-j-team/models"
 )
 
@@ -22,7 +22,7 @@ var createUserModel = models.User{
 *===========================================
  */
 func TestSuccessInsert(t *testing.T) {
-	db := helper.SetupDatabaseTesting()
+	db := helpers.SetupDatabaseTesting()
 	userRepository := NewRepositoryUser(db)
 
 	user, err := userRepository.Create(&createUserModel)
@@ -39,7 +39,7 @@ func TestSuccessInsert(t *testing.T) {
 *===========================================
  */
 func TestSuccessUpdate(t *testing.T) {
-	db := helper.SetupDatabaseTesting()
+	db := helpers.SetupDatabaseTesting()
 	userRepository := NewRepositoryUser(db)
 
 	createUserModel.Email = "wahyu@gmail.com"
@@ -55,7 +55,7 @@ func TestSuccessUpdate(t *testing.T) {
 *===========================================
  */
 func TestSuccessGetId(t *testing.T) {
-	db := helper.SetupDatabaseTesting()
+	db := helpers.SetupDatabaseTesting()
 	userRepository := NewRepositoryUser(db)
 
 	user, err := userRepository.Get(createUserModel.ID)
@@ -70,7 +70,7 @@ func TestSuccessGetId(t *testing.T) {
 *===========================================
  */
 func TestSuccessGetAllUser(t *testing.T) {
-	db := helper.SetupDatabaseTesting()
+	db := helpers.SetupDatabaseTesting()
 	userRepository := NewRepositoryUser(db)
 
 	_, err := userRepository.GetAll()
@@ -84,7 +84,7 @@ func TestSuccessGetAllUser(t *testing.T) {
 *===========================================
  */
 func TestCheckEmailExistOnCreate(t *testing.T) {
-	db := helper.SetupDatabaseTesting()
+	db := helpers.SetupDatabaseTesting()
 	userRepository := NewRepositoryUser(db)
 
 	newEmail := "wahyuagung@gmail.com"
@@ -99,7 +99,7 @@ func TestCheckEmailExistOnCreate(t *testing.T) {
 *===========================================
  */
 func TestCheckEmailNotExistOnUpdate(t *testing.T) {
-	db := helper.SetupDatabaseTesting()
+	db := helpers.SetupDatabaseTesting()
 	userRepository := NewRepositoryUser(db)
 
 	newEmail := "wahyu@gmail.com"
@@ -109,7 +109,7 @@ func TestCheckEmailNotExistOnUpdate(t *testing.T) {
 }
 
 func TestCheckEmailExistOnUpdate(t *testing.T) {
-	db := helper.SetupDatabaseTesting()
+	db := helpers.SetupDatabaseTesting()
 	userRepository := NewRepositoryUser(db)
 
 	newEmail := "wahyu@gmail.com"

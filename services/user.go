@@ -2,7 +2,6 @@ package services
 
 import (
 	"net/http"
-	"time"
 
 	"github.com/upgradeskill/fp2022-crm-j-team/entities"
 	"github.com/upgradeskill/fp2022-crm-j-team/models"
@@ -93,11 +92,10 @@ func (s *serviceUser) Delete(input *schemas.User) (*models.User, schemas.Databas
 	}
 
 	user := models.User{
-		ID:        input.ID,
-		DeletedAt: time.Now(),
+		ID: input.ID,
 	}
 
-	res, err := s.user.Update(&user)
+	res, err := s.user.Delete(&user)
 	return res, err
 }
 
