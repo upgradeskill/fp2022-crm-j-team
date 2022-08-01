@@ -101,7 +101,7 @@ func (h *handleCategory) Delete(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, "delete failed")
 	}
 
-	_, err := h.category.Update(category)
+	_, err := h.category.Delete(category)
 
 	if err.Code != 0 {
 		return c.JSON(http.StatusBadRequest, "delete failed")

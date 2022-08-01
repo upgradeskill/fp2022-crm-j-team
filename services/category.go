@@ -59,6 +59,6 @@ func (s *serviceCategory) Get(input *schemas.Category) (*models.Category, schema
  */
 
 func (s *serviceCategory) Delete(category *schemas.Category) (*models.Category, schemas.DatabaseError) {
-	res, err := s.categoryRepository.Update(category)
+	res, err := s.categoryRepository.Delete(category)
 	return res, err
 }
