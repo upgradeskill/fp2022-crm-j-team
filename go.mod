@@ -29,5 +29,5 @@ require (
 	golang.org/x/sys v0.0.0-20220730100132-1609e554cd39 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	gorm.io/driver/sqlite v1.3.6 // indirect
+	gorm.io/driver/sqlite v1.3.6
 )

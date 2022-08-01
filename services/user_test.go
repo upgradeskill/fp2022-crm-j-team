@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/upgradeskill/fp2022-crm-j-team/helper"
+	"github.com/upgradeskill/fp2022-crm-j-team/helpers"
 	"github.com/upgradeskill/fp2022-crm-j-team/repositories"
 	"github.com/upgradeskill/fp2022-crm-j-team/schemas"
 )
@@ -32,7 +32,7 @@ var createUserSecondSchema = schemas.User{
 *===========================================
  */
 func TestSuccessCreate(t *testing.T) {
-	db := helper.SetupDatabaseTesting()
+	db := helpers.SetupDatabaseTesting()
 	repo := repositories.NewRepositoryUser(db)
 	service := NewServiceUser(repo)
 
@@ -44,7 +44,7 @@ func TestSuccessCreate(t *testing.T) {
 }
 
 func TestFailedCreateEmailAlreadyExists(t *testing.T) {
-	db := helper.SetupDatabaseTesting()
+	db := helpers.SetupDatabaseTesting()
 	repo := repositories.NewRepositoryUser(db)
 	service := NewServiceUser(repo)
 
@@ -59,7 +59,7 @@ func TestFailedCreateEmailAlreadyExists(t *testing.T) {
 *===========================================
  */
 func TestSuccessUpdate(t *testing.T) {
-	db := helper.SetupDatabaseTesting()
+	db := helpers.SetupDatabaseTesting()
 	repo := repositories.NewRepositoryUser(db)
 	service := NewServiceUser(repo)
 
@@ -71,7 +71,7 @@ func TestSuccessUpdate(t *testing.T) {
 }
 
 func TestFailedUpdateUserNotFound(t *testing.T) {
-	db := helper.SetupDatabaseTesting()
+	db := helpers.SetupDatabaseTesting()
 	repo := repositories.NewRepositoryUser(db)
 	service := NewServiceUser(repo)
 
@@ -82,7 +82,7 @@ func TestFailedUpdateUserNotFound(t *testing.T) {
 }
 
 func TestFailedUpdateEmailIsExist(t *testing.T) {
-	db := helper.SetupDatabaseTesting()
+	db := helpers.SetupDatabaseTesting()
 	repo := repositories.NewRepositoryUser(db)
 	service := NewServiceUser(repo)
 
@@ -101,8 +101,8 @@ func TestFailedUpdateEmailIsExist(t *testing.T) {
 * Test Service Delete User
 *===========================================
  */
-func TestSFailedDeleteUserNotFound(t *testing.T) {
-	db := helper.SetupDatabaseTesting()
+func TestFailedDeleteUserNotFound(t *testing.T) {
+	db := helpers.SetupDatabaseTesting()
 	repo := repositories.NewRepositoryUser(db)
 	service := NewServiceUser(repo)
 
@@ -113,7 +113,7 @@ func TestSFailedDeleteUserNotFound(t *testing.T) {
 }
 
 func TestSuccessDelete(t *testing.T) {
-	db := helper.SetupDatabaseTesting()
+	db := helpers.SetupDatabaseTesting()
 	repo := repositories.NewRepositoryUser(db)
 	service := NewServiceUser(repo)
 
@@ -129,5 +129,23 @@ func TestSuccessDelete(t *testing.T) {
 	newUser.ID = user.ID
 	_, errDelete := service.Delete(&newUser)
 
+	getUser, _ := service.Get(&newUser)
+
 	assert.Equal(t, "", errDelete.Type, "Error Type for delete must empty")
+	assert.Equal(t, "", getUser.ID, "ID User must empty")
+}
+
+/**
+* ==========================================
+* Test Service Get All User
+*===========================================
+ */
+func TestSuccessGetAllUsers(t *testing.T) {
+	db := helpers.SetupDatabaseTesting()
+	repo := repositories.NewRepositoryUser(db)
+	service := NewServiceUser(repo)
+
+	_, err := service.GetAll()
+
+	assert.Equal(t, "", err.Type, "Error Type must empty")
 }
