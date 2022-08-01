@@ -26,3 +26,17 @@ func (s *serviceCategory) Create(category *schemas.Category) (*models.Category, 
 	res, err := s.categoryRepository.Create(category)
 	return res, err
 }
+
+/**
+* ==========================================
+* Service Result Category By ID Category
+*===========================================
+ */
+
+func (s *serviceCategory) Get(input *schemas.Category) (*models.Category, schemas.DatabaseError) {
+	var category schemas.Category
+	category.ID = input.ID
+
+	res, err := s.categoryRepository.Get(&category)
+	return res, err
+}

@@ -18,7 +18,7 @@ func Category(category entities.Category) *handleCategory {
 
 /**
 * =====================================
-* Handler Create New Product
+* Handler Create New Category
 *======================================
  */
 
@@ -36,4 +36,28 @@ func (h *handleCategory) Create(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusCreated, "success")
+}
+
+/**
+* =====================================
+* Handler Result Category by ID Category
+*======================================
+ */
+
+func (h *handleCategory) Get(c echo.Context) error {
+	category := new(schemas.Category)
+	id := c.Param("id")
+	category.ID = id
+
+	if err := c.Bind(category); err != nil {
+		return c.JSON(http.StatusBadRequest, "get failed")
+	}
+
+	res, err := h.category.Get(category)
+
+	if err.Code != 0 {
+		return c.JSON(http.StatusBadRequest, "create failed")
+	}
+
+	return c.JSON(http.StatusOK, res)
 }
