@@ -29,6 +29,17 @@ func (s *serviceCategory) Create(category *schemas.Category) (*models.Category, 
 
 /**
 * ==========================================
+* Service Update Category By ID Category
+*===========================================
+ */
+
+func (s *serviceCategory) Update(category *schemas.Category) (*models.Category, schemas.DatabaseError) {
+	res, err := s.categoryRepository.Update(category)
+	return res, err
+}
+
+/**
+* ==========================================
 * Service Result Category By ID Category
 *===========================================
  */
