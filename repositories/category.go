@@ -61,3 +61,22 @@ func (r *repositoryCategory) Get(input *schemas.Category) (*models.Category, sch
 
 	return &category, schemas.DatabaseError{}
 }
+
+/**
+* ==========================================
+* Repository Delete Category By ID Category
+*===========================================
+ */
+
+func (r *repositoryCategory) Delete(input *schemas.Category) (*models.Category, schemas.DatabaseError) {
+	var category models.Category
+	category.ID = input.ID
+	category.DeletedAt = time.Now()
+	category.DeletedBy = "system"
+
+	db := r.db.Model(&category)
+
+	db.Debug().Updates(&category)
+
+	return &category, schemas.DatabaseError{}
+}

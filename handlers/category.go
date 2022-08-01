@@ -85,3 +85,27 @@ func (h *handleCategory) Get(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, res)
 }
+
+/**
+* ======================================
+* Handler Delete Category By ID Category
+*=======================================
+ */
+
+func (h *handleCategory) Delete(c echo.Context) error {
+	category := new(schemas.Category)
+	id := c.Param("id")
+	category.ID = id
+
+	if err := c.Bind(category); err != nil {
+		return c.JSON(http.StatusBadRequest, "delete failed")
+	}
+
+	_, err := h.category.Update(category)
+
+	if err.Code != 0 {
+		return c.JSON(http.StatusBadRequest, "delete failed")
+	}
+
+	return c.JSON(http.StatusCreated, "delete success")
+}

@@ -18,4 +18,5 @@ func NewRouteCategory(db *gorm.DB, router *echo.Echo) {
 	route.GET("/result/:id", handler.Get)
 	route.POST("/create", handler.Create)
 	route.PUT("/update/:id", handler.Update)
+	route.PUT("/delete/:id", handler.Delete)
 }
