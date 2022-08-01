@@ -6,9 +6,10 @@ import (
 )
 
 type UserInterface interface {
-	Create(input *schemas.User) (*models.User, schemas.DatabaseError)
+	Create(input *models.User) (*models.User, schemas.DatabaseError)
 	Get(userId string) (*models.User, schemas.DatabaseError)
+	CheckEmailExistOnCreate(email string) (*models.User, schemas.DatabaseError)
+	CheckEmailExistOnUpdate(email string, userId string) (*models.User, schemas.DatabaseError)
 	GetAll() (*[]models.User, schemas.DatabaseError)
-	Delete(userId string) (bool, schemas.DatabaseError)
-	Update(input *schemas.User) (*models.User, schemas.DatabaseError)
+	Update(input *models.User) (*models.User, schemas.DatabaseError)
 }

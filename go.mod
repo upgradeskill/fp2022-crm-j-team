@@ -12,6 +12,7 @@ require (
 	github.com/labstack/gommon v0.3.1 // indirect
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
+	github.com/mattn/go-sqlite3 v1.14.14 // indirect
 	github.com/sirupsen/logrus v1.9.0
 	github.com/stretchr/testify v1.8.0
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
@@ -21,5 +22,6 @@ require (
 	golang.org/x/sys v0.0.0-20220730100132-1609e554cd39 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	gorm.io/driver/mysql v1.3.5
+	gorm.io/driver/sqlite v1.3.6
 	gorm.io/gorm v1.23.8
 )
