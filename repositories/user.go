@@ -3,8 +3,8 @@ package repositories
 import (
 	"net/http"
 
-	"github.com/upgradeskill/fp2022-crm-j-team/entities"
 	"github.com/upgradeskill/fp2022-crm-j-team/models"
+	"github.com/upgradeskill/fp2022-crm-j-team/ports"
 	"github.com/upgradeskill/fp2022-crm-j-team/schemas"
 	"gorm.io/gorm"
 )
@@ -13,7 +13,7 @@ type repositoryUser struct {
 	db *gorm.DB
 }
 
-func NewRepositoryUser(db *gorm.DB) entities.UserInterface {
+func NewRepositoryUser(db *gorm.DB) ports.UserInterface {
 	return &repositoryUser{db: db}
 }
 

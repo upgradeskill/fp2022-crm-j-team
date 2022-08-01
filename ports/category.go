@@ -1,4 +1,4 @@
-package entities
+package ports
 
 import (
 	"github.com/upgradeskill/fp2022-crm-j-team/models"
@@ -7,4 +7,6 @@ import (
 
 type Category interface {
 	Create(input *schemas.Category) (*models.Category, schemas.DatabaseError)
+	Get(input *schemas.Category) (*models.Category, schemas.DatabaseError)
+	Update(input *schemas.Category) (*models.Category, schemas.DatabaseError)
 }
