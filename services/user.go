@@ -4,16 +4,16 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/upgradeskill/fp2022-crm-j-team/entities"
 	"github.com/upgradeskill/fp2022-crm-j-team/models"
+	"github.com/upgradeskill/fp2022-crm-j-team/ports"
 	"github.com/upgradeskill/fp2022-crm-j-team/schemas"
 )
 
 type serviceUser struct {
-	user entities.UserInterface
+	user ports.UserInterface
 }
 
-func NewServiceUser(user entities.UserInterface) *serviceUser {
+func NewServiceUser(user ports.UserInterface) *serviceUser {
 	return &serviceUser{user: user}
 }
 

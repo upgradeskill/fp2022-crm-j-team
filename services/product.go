@@ -2,16 +2,16 @@ package services
 
 import (
 	"github.com/google/uuid"
-	"github.com/upgradeskill/fp2022-crm-j-team/entities"
 	"github.com/upgradeskill/fp2022-crm-j-team/models"
+	"github.com/upgradeskill/fp2022-crm-j-team/ports"
 	"github.com/upgradeskill/fp2022-crm-j-team/schemas"
 )
 
 type serviceProduct struct {
-	productRepository entities.Product
+	productRepository ports.Product
 }
 
-func Product(productRepository entities.Product) *serviceProduct {
+func Product(productRepository ports.Product) *serviceProduct {
 	return &serviceProduct{productRepository: productRepository}
 }
 

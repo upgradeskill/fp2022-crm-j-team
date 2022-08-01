@@ -2,16 +2,16 @@ package services
 
 import (
 	"github.com/google/uuid"
-	"github.com/upgradeskill/fp2022-crm-j-team/entities"
 	"github.com/upgradeskill/fp2022-crm-j-team/models"
+	"github.com/upgradeskill/fp2022-crm-j-team/ports"
 	"github.com/upgradeskill/fp2022-crm-j-team/schemas"
 )
 
 type serviceCategory struct {
-	categoryRepository entities.Category
+	categoryRepository ports.Category
 }
 
-func Category(categoryRepository entities.Category) *serviceCategory {
+func Category(categoryRepository ports.Category) *serviceCategory {
 	return &serviceCategory{categoryRepository: categoryRepository}
 }
 

@@ -4,15 +4,15 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	"github.com/upgradeskill/fp2022-crm-j-team/entities"
+	"github.com/upgradeskill/fp2022-crm-j-team/ports"
 	"github.com/upgradeskill/fp2022-crm-j-team/schemas"
 )
 
 type handleCategory struct {
-	category entities.Category
+	category ports.Category
 }
 
-func Category(category entities.Category) *handleCategory {
+func Category(category ports.Category) *handleCategory {
 	return &handleCategory{category: category}
 }
 

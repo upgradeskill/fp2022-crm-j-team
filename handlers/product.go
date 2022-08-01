@@ -5,15 +5,15 @@ import (
 
 	"github.com/labstack/echo/v4"
 
-	"github.com/upgradeskill/fp2022-crm-j-team/entities"
+	"github.com/upgradeskill/fp2022-crm-j-team/ports"
 	"github.com/upgradeskill/fp2022-crm-j-team/schemas"
 )
 
 type handleProduct struct {
-	product entities.Product
+	product ports.Product
 }
 
-func Product(product entities.Product) *handleProduct {
+func Product(product ports.Product) *handleProduct {
 	return &handleProduct{product: product}
 }
 
