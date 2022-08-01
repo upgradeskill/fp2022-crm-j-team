@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 
@@ -35,4 +36,31 @@ func (h *handleProduct) Create(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusCreated, "success")
+}
+
+func (h *handleProduct) Get(c echo.Context) error {
+	product := new(schemas.Product)
+	product.ID = c.Param("id")
+
+	res, err := h.product.Get(product)
+	if err.Code != 0 {
+		return c.JSON(http.StatusBadRequest, "get data failed")
+	}
+
+	return c.JSON(http.StatusCreated, res)
+}
+
+func (h *handleProduct) GetAll(c echo.Context) error {
+	product := new(schemas.Product)
+	product.ID = c.QueryParam("id")
+	product.Name = c.QueryParam("name")
+	product.SKU, _ = strconv.ParseUint(c.QueryParam("sku"), 10, 64)
+	product.CategoryId = c.QueryParam("category_id")
+
+	res, err := h.product.GetAll(product)
+	if err.Code != 0 {
+		return c.JSON(http.StatusBadRequest, "get data failed")
+	}
+
+	return c.JSON(http.StatusCreated, res)
 }

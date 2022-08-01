@@ -28,3 +28,28 @@ func (r *repositoryProduct) Create(input *schemas.Product) (*models.Product, sch
 
 	return &product, schemas.DatabaseError{}
 }
+
+func (r *repositoryProduct) Get(input *schemas.Product) (*models.Product, schemas.DatabaseError) {
+	var product models.Product
+	r.db.Where("id = ?", input.ID).First(&product)
+
+	return &product, schemas.DatabaseError{}
+}
+
+func (r *repositoryProduct) GetAll(input *schemas.Product) (*[]models.Product, schemas.DatabaseError) {
+	var product []models.Product
+
+	if input.ID != "" {
+		r.db.Where("id like ?", "%"+input.ID+"%")
+	}
+
+	if input.Name != "" {
+		r.db.Where("name like ?", "%"+input.Name+"%")
+	}
+
+	if input.CategoryId != "" {
+		r.db.Where("category_id like ?", "%"+input.CategoryId+"%")
+	}
+
+	return &product, schemas.DatabaseError{}
+}

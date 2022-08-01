@@ -7,4 +7,6 @@ import (
 
 type Product interface {
 	Create(input *schemas.Product) (*models.Product, schemas.DatabaseError)
+	Get(input *schemas.Product) (*models.Product, schemas.DatabaseError)
+	GetAll(input *schemas.Product) (*[]models.Product, schemas.DatabaseError)
 }
