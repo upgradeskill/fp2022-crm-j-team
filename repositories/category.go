@@ -31,7 +31,7 @@ func (r *repositoryCategory) Create(input *schemas.Category) (*models.Category, 
 
 	db := r.db.Model(&category)
 
-	db.Create(&category)
+	db.Debug().Create(&category)
 
 	return &category, schemas.DatabaseError{}
 }
@@ -42,11 +42,24 @@ func (r *repositoryCategory) Create(input *schemas.Category) (*models.Category, 
 *===========================================
  */
 
-func (r *repositoryCategory) GetAll() (*[]models.Category, schemas.DatabaseError) {
+func (r *repositoryCategory) GetAll(input *schemas.Category) (*[]models.Category, schemas.DatabaseError) {
 	var category []models.Category
+	limit := 10
+	page := input.Page
 
 	db := r.db.Model(&category)
 
+	if input.Name != "" {
+		db.Where("name like ?", "%"+input.Name+"%")
+	}
+
+	if page > 1 {
+		page = (page * limit) - limit
+	} else {
+		page = 0
+	}
+
+	db.Limit(limit).Offset(page)
 	db.Debug().Find(&category)
 
 	return &category, schemas.DatabaseError{}
@@ -80,7 +93,7 @@ func (r *repositoryCategory) Update(input *schemas.Category) (*models.Category, 
 	category.ID = input.ID
 	category.Name = input.Name
 	category.Description = input.Description
-	category.CreatedAt = time.Now()
+	category.UpdatedAt = time.Now()
 	category.UpdatedBy = "system"
 
 	db := r.db.Model(&category)

@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 	"github.com/upgradeskill/fp2022-crm-j-team/ports"
@@ -93,7 +94,23 @@ func (h *handleCategory) Get(c echo.Context) error {
  */
 
 func (h *handleCategory) GetAll(c echo.Context) error {
-	res, err := h.category.GetAll()
+
+	var pageNum int
+
+	category := new(schemas.Category)
+	category.Name = c.QueryParam("name")
+	initPage := c.QueryParam("page")
+
+	if initPage != "" {
+		number, _ := strconv.Atoi(initPage)
+		pageNum = number
+	} else {
+		pageNum = 1
+	}
+
+	category.Page = pageNum
+
+	res, err := h.category.GetAll(category)
 
 	if err.Code != 0 {
 		return c.JSON(http.StatusBadRequest, "get failed")

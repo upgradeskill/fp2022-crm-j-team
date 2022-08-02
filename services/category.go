@@ -58,8 +58,8 @@ func (s *serviceCategory) Get(input *schemas.Category) (*models.Category, schema
 *===========================================
  */
 
-func (s *serviceCategory) GetAll() (*[]models.Category, schemas.DatabaseError) {
-	res, err := s.categoryRepository.GetAll()
+func (s *serviceCategory) GetAll(category *schemas.Category) (*[]models.Category, schemas.DatabaseError) {
+	res, err := s.categoryRepository.GetAll(category)
 	return res, err
 }
 
