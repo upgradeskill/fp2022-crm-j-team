@@ -53,3 +53,8 @@ func (s *serviceProduct) Update(product *schemas.Product) (*models.Product, sche
 	res, err := s.productRepository.Update(product)
 	return res, err
 }
+
+func (s *serviceProduct) Delete(product *schemas.Product) (*models.Product, schemas.DatabaseError) {
+	res, err := s.productRepository.Delete(product)
+	return res, err
+}

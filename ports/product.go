@@ -10,4 +10,5 @@ type Product interface {
 	Get(input *schemas.Product) (*models.Product, schemas.DatabaseError)
 	GetAll(input *schemas.Product) (*[]models.Product, schemas.DatabaseError)
 	Update(input *schemas.Product) (*models.Product, schemas.DatabaseError)
+	Delete(input *schemas.Product) (*models.Product, schemas.DatabaseError)
 }

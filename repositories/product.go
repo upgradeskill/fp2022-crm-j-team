@@ -72,3 +72,13 @@ func (r *repositoryProduct) Update(input *schemas.Product) (*models.Product, sch
 
 	return &product, schemas.DatabaseError{}
 }
+
+func (r *repositoryProduct) Delete(input *schemas.Product) (*models.Product, schemas.DatabaseError) {
+	var product models.Product
+	product.ID = input.ID
+	db := r.db.Model(&product)
+
+	db.Delete(&product)
+
+	return &product, schemas.DatabaseError{}
+}

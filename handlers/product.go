@@ -82,3 +82,15 @@ func (h *handleProduct) Update(c echo.Context) error {
 
 	return c.JSON(http.StatusCreated, "success")
 }
+
+func (h *handleProduct) Delete(c echo.Context) error {
+	product := new(schemas.Product)
+	product.ID = c.Param("id")
+
+	_, err := h.product.Delete(product)
+	if err.Code != 0 {
+		return c.JSON(http.StatusBadRequest, "delete failed")
+	}
+
+	return c.JSON(http.StatusCreated, "success")
+}
