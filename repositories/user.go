@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	"github.com/upgradeskill/fp2022-crm-j-team/models"
-	"github.com/upgradeskill/fp2022-crm-j-team/ports"
 	"github.com/upgradeskill/fp2022-crm-j-team/schemas"
 	"gorm.io/gorm"
 )
@@ -13,7 +12,7 @@ type repositoryUser struct {
 	db *gorm.DB
 }
 
-func NewRepositoryUser(db *gorm.DB) ports.UserInterface {
+func NewRepositoryUser(db *gorm.DB) *repositoryUser {
 	return &repositoryUser{db: db}
 }
 

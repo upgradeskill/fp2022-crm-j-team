@@ -13,6 +13,8 @@ import (
 	"github.com/upgradeskill/fp2022-crm-j-team/routes"
 )
 
+var SessionUser = "123"
+
 func main() {
 
 	/**
@@ -32,6 +34,7 @@ func main() {
 
 	routes.Product(db, app)
 	routes.NewRouteCategory(db, app)
+	routes.NewRouteUser(db, app)
 
 	/**
 	* ========================
