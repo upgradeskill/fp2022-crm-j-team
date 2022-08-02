@@ -15,8 +15,9 @@ func NewRouteCategory(db *gorm.DB, router *echo.Echo) {
 	handler := handlers.Category(service)
 
 	route := router.Group("/api/v1/category")
+	route.GET("/results", handler.GetAll)
 	route.GET("/result/:id", handler.Get)
 	route.POST("/create", handler.Create)
 	route.PUT("/update/:id", handler.Update)
-	route.PUT("/delete/:id", handler.Delete)
+	route.DELETE("/delete/:id", handler.Delete)
 }

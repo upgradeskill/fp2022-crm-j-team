@@ -15,4 +15,6 @@ func Product(db *gorm.DB, router *echo.Echo) {
 
 	route := router.Group("/api/v1/product")
 	route.POST("", handler.Create)
+	route.GET("", handler.GetAll)
+	route.GET("/:id", handler.Get)
 }

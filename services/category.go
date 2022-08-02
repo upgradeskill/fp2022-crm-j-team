@@ -54,11 +54,22 @@ func (s *serviceCategory) Get(input *schemas.Category) (*models.Category, schema
 
 /**
 * ==========================================
+* Service Result All Category
+*===========================================
+ */
+
+func (s *serviceCategory) GetAll() (*[]models.Category, schemas.DatabaseError) {
+	res, err := s.categoryRepository.GetAll()
+	return res, err
+}
+
+/**
+* ==========================================
 * Service Delete Category By ID Category
 *===========================================
  */
 
 func (s *serviceCategory) Delete(category *schemas.Category) (*models.Category, schemas.DatabaseError) {
-	res, err := s.categoryRepository.Update(category)
+	res, err := s.categoryRepository.Delete(category)
 	return res, err
 }

@@ -26,3 +26,25 @@ func (s *serviceProduct) Create(product *schemas.Product) (*models.Product, sche
 	res, err := s.productRepository.Create(product)
 	return res, err
 }
+
+/**
+* ==========================================
+* Service Get Multiple Product
+*===========================================
+ */
+
+func (s *serviceProduct) Get(product *schemas.Product) (*models.Product, schemas.DatabaseError) {
+	res, err := s.productRepository.Get(product)
+	return res, err
+}
+
+/**
+* ==========================================
+* Service Get Multiple Product
+*===========================================
+ */
+
+func (s *serviceProduct) GetAll(product *schemas.Product) (*[]models.Product, schemas.DatabaseError) {
+	res, err := s.productRepository.GetAll(product)
+	return res, err
+}
