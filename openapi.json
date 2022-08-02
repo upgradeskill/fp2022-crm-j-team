@@ -4,14 +4,42 @@
     "title": "MINI POS - REST API",
     "version": "1.0"
   },
-  "servers": [{ "url": "http://localhost:3000/api" }],
+  "servers": [{ "url": "http://localhost:8000/api/v1" }],
   "paths": {
-    "/categories": {
+    "/categories/results": {
       "get": {
         "security": [{ "JWT": [] }],
         "tags": ["Categories"],
         "description": "list all categories",
         "summary": "list all categories",
+        "parameters": [
+          {
+            "required": false,
+            "name": "name",
+            "in": "query",
+            "description": "Category Name",
+            "schema": {
+              "properties": {
+                "name": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          {
+            "required": false,
+            "name": "page",
+            "in": "query",
+            "description": "Category Page",
+            "schema": {
+              "properties": {
+                "page": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success get all categories",
