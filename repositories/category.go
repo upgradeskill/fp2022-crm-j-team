@@ -16,6 +16,12 @@ func Category(db *gorm.DB) *repositoryCategory {
 	return &repositoryCategory{db: db}
 }
 
+/**
+* ==========================================
+* Repository Create New Category
+*===========================================
+ */
+
 func (r *repositoryCategory) Create(input *schemas.Category) (*models.Category, schemas.DatabaseError) {
 	var category models.Category
 	category.ID = input.ID
@@ -26,6 +32,39 @@ func (r *repositoryCategory) Create(input *schemas.Category) (*models.Category, 
 	db := r.db.Model(&category)
 
 	db.Create(&category)
+
+	return &category, schemas.DatabaseError{}
+}
+
+/**
+* ==========================================
+* Repository Get All Category
+*===========================================
+ */
+
+func (r *repositoryCategory) GetAll() (*[]models.Category, schemas.DatabaseError) {
+	var category []models.Category
+
+	db := r.db.Model(&category)
+
+	db.Debug().Find(&category)
+
+	return &category, schemas.DatabaseError{}
+}
+
+/**
+* ==========================================
+* Repository Get Category By ID Category
+*===========================================
+ */
+
+func (r *repositoryCategory) Get(input *schemas.Category) (*models.Category, schemas.DatabaseError) {
+	var category models.Category
+	category.ID = input.ID
+
+	db := r.db.Model(&category)
+
+	db.Debug().First(&category)
 
 	return &category, schemas.DatabaseError{}
 }
@@ -47,17 +86,6 @@ func (r *repositoryCategory) Update(input *schemas.Category) (*models.Category, 
 	db := r.db.Model(&category)
 
 	db.Debug().Updates(&category)
-
-	return &category, schemas.DatabaseError{}
-}
-
-func (r *repositoryCategory) Get(input *schemas.Category) (*models.Category, schemas.DatabaseError) {
-	var category models.Category
-	category.ID = input.ID
-
-	db := r.db.Model(&category)
-
-	db.Debug().First(&category)
 
 	return &category, schemas.DatabaseError{}
 }

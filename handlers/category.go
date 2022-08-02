@@ -80,7 +80,23 @@ func (h *handleCategory) Get(c echo.Context) error {
 	res, err := h.category.Get(category)
 
 	if err.Code != 0 {
-		return c.JSON(http.StatusBadRequest, "create failed")
+		return c.JSON(http.StatusBadRequest, "get failed")
+	}
+
+	return c.JSON(http.StatusOK, res)
+}
+
+/**
+* =====================================
+* Handler Result All Category
+*======================================
+ */
+
+func (h *handleCategory) GetAll(c echo.Context) error {
+	res, err := h.category.GetAll()
+
+	if err.Code != 0 {
+		return c.JSON(http.StatusBadRequest, "get failed")
 	}
 
 	return c.JSON(http.StatusOK, res)
