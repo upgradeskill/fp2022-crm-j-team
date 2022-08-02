@@ -48,3 +48,8 @@ func (s *serviceProduct) GetAll(product *schemas.Product) (*[]models.Product, sc
 	res, err := s.productRepository.GetAll(product)
 	return res, err
 }
+
+func (s *serviceProduct) Update(product *schemas.Product) (*models.Product, schemas.DatabaseError) {
+	res, err := s.productRepository.Update(product)
+	return res, err
+}

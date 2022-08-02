@@ -66,3 +66,19 @@ func (h *handleProduct) GetAll(c echo.Context) error {
 
 	return c.JSON(http.StatusCreated, res)
 }
+
+func (h *handleProduct) Update(c echo.Context) error {
+	product := new(schemas.Product)
+	if err := c.Bind(product); err != nil {
+		return c.JSON(http.StatusBadRequest, "update failed")
+	}
+
+	product.ID = c.Param("id")
+
+	_, err := h.product.Update(product)
+	if err.Code != 0 {
+		return c.JSON(http.StatusBadRequest, "update failed")
+	}
+
+	return c.JSON(http.StatusCreated, "success")
+}

@@ -17,4 +17,5 @@ func Product(db *gorm.DB, router *echo.Echo) {
 	route.POST("", handler.Create)
 	route.GET("", handler.GetAll)
 	route.GET("/:id", handler.Get)
+	route.PUT("/:id", handler.Update)
 }

@@ -58,3 +58,17 @@ func (r *repositoryProduct) GetAll(input *schemas.Product) (*[]models.Product, s
 
 	return &products, schemas.DatabaseError{}
 }
+
+func (r *repositoryProduct) Update(input *schemas.Product) (*models.Product, schemas.DatabaseError) {
+	var product models.Product
+	product.ID = input.ID
+	product.Name = input.Name
+	product.SKU = input.SKU
+	product.CategoryId = input.CategoryId
+	product.CreatedBy = "system" // temporary hardcode
+	db := r.db.Model(&product)
+
+	db.Updates(&product)
+
+	return &product, schemas.DatabaseError{}
+}
