@@ -8,7 +8,7 @@ import (
 	"github.com/upgradeskill/fp2022-crm-j-team/models"
 )
 
-var createUserModel = models.User{
+var userModel = models.User{
 	Name:     "Wahyu",
 	Email:    "wahyuagung26@gmail.com",
 	Password: "bismillah",
@@ -25,11 +25,11 @@ func TestSuccessInsert(t *testing.T) {
 	db := helpers.SetupDatabaseTesting()
 	userRepository := NewRepositoryUser(db)
 
-	user, err := userRepository.Create(&createUserModel)
+	user, err := userRepository.Create(&userModel)
 	newUser, _ := userRepository.Get(user.ID)
-	createUserModel.ID = user.ID
+	userModel.ID = user.ID
 
-	assert.Equal(t, createUserModel.Name, newUser.Name, "Name on retur Create user and get by id must match")
+	assert.Equal(t, userModel.Name, newUser.Name, "Name on retur Create user and get by id must match")
 	assert.Equal(t, "", err.Type, "Error Type must blank")
 }
 
@@ -42,10 +42,10 @@ func TestSuccessUpdate(t *testing.T) {
 	db := helpers.SetupDatabaseTesting()
 	userRepository := NewRepositoryUser(db)
 
-	createUserModel.Email = "wahyu@gmail.com"
-	user, err := userRepository.Update(&createUserModel)
+	userModel.Email = "wahyu@gmail.com"
+	user, err := userRepository.Update(&userModel)
 
-	assert.Equal(t, createUserModel.Email, user.Email, "Email must match")
+	assert.Equal(t, userModel.Email, user.Email, "Email must match")
 	assert.Equal(t, "", err.Type, "Error Type must blank")
 }
 
@@ -58,9 +58,24 @@ func TestSuccessGetId(t *testing.T) {
 	db := helpers.SetupDatabaseTesting()
 	userRepository := NewRepositoryUser(db)
 
-	user, err := userRepository.Get(createUserModel.ID)
+	user, err := userRepository.Get(userModel.ID)
 
-	assert.Equal(t, createUserModel.Email, user.Email, "Email must match")
+	assert.Equal(t, userModel.Email, user.Email, "Email must match")
+	assert.Equal(t, "", err.Type, "Error Type must blank")
+}
+
+/**
+* ==========================================
+* Test Repository Login User
+*===========================================
+ */
+func TestSuccessGetLogin(t *testing.T) {
+	db := helpers.SetupDatabaseTesting()
+	userRepository := NewRepositoryUser(db)
+
+	user, err := userRepository.Login(userModel.Email, userModel.Password)
+
+	assert.Equal(t, userModel.Email, user.Email, "Email must match")
 	assert.Equal(t, "", err.Type, "Error Type must blank")
 }
 
@@ -103,7 +118,7 @@ func TestCheckEmailNotExistOnUpdate(t *testing.T) {
 	userRepository := NewRepositoryUser(db)
 
 	newEmail := "wahyu@gmail.com"
-	user, _ := userRepository.CheckEmailExistOnUpdate(newEmail, createUserModel.ID)
+	user, _ := userRepository.CheckEmailExistOnUpdate(newEmail, userModel.ID)
 
 	assert.Equal(t, "", user.Email, "Email not registered yet")
 }
@@ -116,4 +131,20 @@ func TestCheckEmailExistOnUpdate(t *testing.T) {
 	user, _ := userRepository.CheckEmailExistOnUpdate(newEmail, "123456")
 
 	assert.Equal(t, newEmail, user.Email, "Email already registered")
+}
+
+/**
+* ==========================================
+* Test Repository Delete User
+*===========================================
+ */
+func TestSuccessDelete(t *testing.T) {
+	db := helpers.SetupDatabaseTesting()
+	userRepository := NewRepositoryUser(db)
+
+	_, errDelete := userRepository.Delete(&userModel)
+	user, _ := userRepository.Get(userModel.ID)
+
+	assert.Equal(t, "", errDelete.Type, "Error Type must empty")
+	assert.Equal(t, "", user.ID, "User ID must empty")
 }

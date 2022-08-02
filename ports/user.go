@@ -10,6 +10,7 @@ type UserRepositoryInterface interface {
 	Get(userId string) (*models.User, schemas.DatabaseError)
 	CheckEmailExistOnCreate(email string) (*models.User, schemas.DatabaseError)
 	CheckEmailExistOnUpdate(email string, userId string) (*models.User, schemas.DatabaseError)
+	Login(email string, password string) (*models.User, schemas.DatabaseError)
 	GetAll() (*[]models.User, schemas.DatabaseError)
 	Update(input *models.User) (*models.User, schemas.DatabaseError)
 	Delete(input *models.User) (*models.User, schemas.DatabaseError)
@@ -19,6 +20,7 @@ type UserServiceInterface interface {
 	Create(input *schemas.User) (*models.User, schemas.DatabaseError)
 	Get(input *schemas.User) (*models.User, schemas.DatabaseError)
 	GetAll() (*[]models.User, schemas.DatabaseError)
+	Login(input *schemas.UserLogin) (*models.User, schemas.DatabaseError)
 	Update(input *schemas.User) (*models.User, schemas.DatabaseError)
 	Delete(input *schemas.User) (*models.User, schemas.DatabaseError)
 }

@@ -22,6 +22,45 @@ func NewHandlerUser(user ports.UserServiceInterface) *handleUser {
 
 /**
 * =====================================
+* Handler Login
+*======================================
+ */
+func (h *handleUser) Login(c echo.Context) error {
+	userLoginSchema := new(schemas.UserLogin)
+	if err := c.Bind(userLoginSchema); err != nil {
+		return c.JSON(http.StatusUnprocessableEntity, schemas.Responses{
+			StatusCode: http.StatusUnprocessableEntity,
+			Message:    "failed login user",
+		})
+	}
+
+	validate = validator.New()
+	eValidation := validate.Struct(userLoginSchema)
+	if eValidation != nil {
+		return c.JSON(http.StatusUnprocessableEntity, schemas.Responses{
+			StatusCode: http.StatusUnprocessableEntity,
+			Message:    "failed login",
+			Data:       strings.Split(eValidation.Error(), "tag\n"),
+		})
+	}
+
+	user, err := h.user.Login(userLoginSchema)
+	if err.Code != 0 {
+		return c.JSON(err.Code, schemas.Responses{
+			StatusCode: err.Code,
+			Message:    err.Type,
+		})
+	}
+
+	return c.JSON(http.StatusOK, schemas.Responses{
+		StatusCode: http.StatusOK,
+		Message:    "success login",
+		Data:       user,
+	})
+}
+
+/**
+* =====================================
 * Handler Create New User
 *======================================
  */

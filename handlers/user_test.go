@@ -15,9 +15,11 @@ import (
 )
 
 var (
-	userCreate    = models.User{}
-	payloadCreate = `{"name":"Wahyu Agung","email":"wahyu.agung@majoo.id","password":"12345","role":"owner","outlet_id":"1"}`
-	payloadUpdate = `{"name":"Wahyu Agung","email":"wahyuagung@majoo.id","password":"12345","role":"owner","outlet_id":"1"}`
+	userCreate         = models.User{}
+	payloadCreate      = `{"name":"Wahyu Agung","email":"wahyu.agung@majoo.id","password":"12345","role":"owner","outlet_id":"1"}`
+	payloadUpdate      = `{"name":"Wahyu Agung","email":"wahyuagung@majoo.id","password":"12345","role":"owner","outlet_id":"1"}`
+	payloadLogin       = `{"email":"wahyu.agung@majoo.id","password":"12345"}`
+	payloadLoginFailed = `{"email":"wahyu.agung@majoo.id","password":"123456212"}`
 )
 
 /**
@@ -44,6 +46,55 @@ func TestSuccessCreateUser(t *testing.T) {
 	// Assertions
 	if assert.NoError(t, handler.Create(context)) {
 		assert.Equal(t, http.StatusCreated, rec.Code)
+	}
+}
+
+/**
+* ==========================================
+* Test Login
+*===========================================
+ */
+func TestSuccessLogin(t *testing.T) {
+	// Setup
+	app := echo.New()
+	db := helpers.SetupDatabaseTesting()
+	repository := repositories.NewRepositoryUser(db)
+	service := services.NewServiceUser(repository)
+	handler := NewHandlerUser(service)
+
+	req := httptest.NewRequest(http.MethodPost, "/", strings.NewReader(payloadLogin))
+	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+
+	rec := httptest.NewRecorder()
+
+	context := app.NewContext(req, rec)
+	context.SetPath("/login")
+
+	// Assertions
+	if assert.NoError(t, handler.Login(context)) {
+		assert.Equal(t, http.StatusOK, rec.Code, rec.Body.String())
+	}
+}
+
+func TestFailedLogin(t *testing.T) {
+	// Setup
+	app := echo.New()
+	db := helpers.SetupDatabaseTesting()
+	repository := repositories.NewRepositoryUser(db)
+	service := services.NewServiceUser(repository)
+	handler := NewHandlerUser(service)
+
+	req := httptest.NewRequest(http.MethodPost, "/", strings.NewReader(payloadLoginFailed))
+	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+
+	rec := httptest.NewRecorder()
+
+	context := app.NewContext(req, rec)
+	context.SetPath("/login")
+
+	// Assertions
+	if assert.NoError(t, handler.Login(context)) {
+		assert.NotEqual(t, http.StatusOK, rec.Code, rec.Body.String())
 	}
 }
 

@@ -19,4 +19,6 @@ func NewRouteUser(db *gorm.DB, router *echo.Echo) {
 	route.GET("users/:id", handler.Get)
 	route.PUT("users/:id", handler.Update)
 	route.DELETE("users/:id", handler.Delete)
+
+	route.POST("login", handler.Login)
 }

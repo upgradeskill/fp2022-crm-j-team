@@ -55,6 +55,40 @@ func TestFailedCreateEmailAlreadyExists(t *testing.T) {
 
 /**
 * ==========================================
+* Test Service Login
+*===========================================
+ */
+func TestSuccessLogin(t *testing.T) {
+	db := helpers.SetupDatabaseTesting()
+	repo := repositories.NewRepositoryUser(db)
+	service := NewServiceUser(repo)
+	userLogin := schemas.UserLogin{
+		Email:    createUserSchema.Email,
+		Password: createUserSchema.Password,
+	}
+
+	user, err := service.Login(&userLogin)
+
+	assert.Equal(t, user.Name, createUserSchema.Name, "Name must match")
+	assert.Equal(t, "", err.Type, "Error Type must blank")
+}
+
+func TestFailedLoginUserNotFound(t *testing.T) {
+	db := helpers.SetupDatabaseTesting()
+	repo := repositories.NewRepositoryUser(db)
+	service := NewServiceUser(repo)
+	userLogin := schemas.UserLogin{
+		Email:    createUserSchema.Email,
+		Password: "123456",
+	}
+
+	_, err := service.Login(&userLogin)
+
+	assert.Equal(t, http.StatusNotFound, err.Code, "Error Code must match")
+}
+
+/**
+* ==========================================
 * Test Service Create User
 *===========================================
  */
