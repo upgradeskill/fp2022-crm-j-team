@@ -8,7 +8,7 @@ import (
 type Category interface {
 	Create(input *schemas.Category) (*models.Category, schemas.DatabaseError)
 	Get(input *schemas.Category) (*models.Category, schemas.DatabaseError)
-	GetAll() (*[]models.Category, schemas.DatabaseError)
+	GetAll(input *schemas.Category) (*[]models.Category, schemas.DatabaseError)
 	Update(input *schemas.Category) (*models.Category, schemas.DatabaseError)
 	Delete(input *schemas.Category) (*models.Category, schemas.DatabaseError)
 }
