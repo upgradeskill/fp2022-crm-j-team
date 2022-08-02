@@ -26,8 +26,8 @@ func NewHandlerUser(user ports.UserServiceInterface) *handleUser {
 *======================================
  */
 func (h *handleUser) Create(c echo.Context) error {
-	user := new(schemas.User)
-	if err := c.Bind(user); err != nil {
+	userSchema := new(schemas.User)
+	if err := c.Bind(userSchema); err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, schemas.Responses{
 			StatusCode: http.StatusUnprocessableEntity,
 			Message:    "failed create user",
@@ -35,7 +35,7 @@ func (h *handleUser) Create(c echo.Context) error {
 	}
 
 	validate = validator.New()
-	eValidation := validate.Struct(user)
+	eValidation := validate.Struct(userSchema)
 	if eValidation != nil {
 		return c.JSON(http.StatusUnprocessableEntity, schemas.Responses{
 			StatusCode: http.StatusUnprocessableEntity,
@@ -44,7 +44,7 @@ func (h *handleUser) Create(c echo.Context) error {
 		})
 	}
 
-	createdUser, err := h.user.Create(user)
+	user, err := h.user.Create(userSchema)
 	if err.Code != 0 {
 		return c.JSON(err.Code, schemas.Responses{
 			StatusCode: err.Code,
@@ -55,7 +55,7 @@ func (h *handleUser) Create(c echo.Context) error {
 	return c.JSON(http.StatusCreated, schemas.Responses{
 		StatusCode: http.StatusCreated,
 		Message:    "Success create user",
-		Data:       createdUser,
+		Data:       user,
 	})
 }
 
@@ -64,73 +64,127 @@ func (h *handleUser) Create(c echo.Context) error {
 * Handler Update User
 *======================================
  */
-// func (h *handleUser) Update(c echo.Context) {
-// 	user := new(schemas.User)
-// 	if err := c.Bind(user); err != nil {
-// 		return c.JSON(http.StatusBadRequest, "create failed")
-// 	}
+func (h *handleUser) Update(c echo.Context) error {
+	if c.Param("id") == "" {
+		return c.JSON(http.StatusOK, schemas.Responses{
+			StatusCode: http.StatusUnprocessableEntity,
+			Message:    "param id is required",
+		})
+	}
 
-// 	_, err := h.user.Update(user)
-// 	if err.Code != 0 {
-// 		return c.JSON(http.StatusBadRequest, "create failed")
-// 	}
+	userSchema := new(schemas.User)
+	userSchema.ID = c.Param("id")
+	if err := c.Bind(userSchema); err != nil {
+		return c.JSON(http.StatusUnprocessableEntity, schemas.Responses{
+			StatusCode: http.StatusUnprocessableEntity,
+			Message:    "failed update user",
+		})
+	}
 
-// 	return c.JSON(http.StatusCreated, "success")
-// }
+	validate = validator.New()
+	eValidation := validate.Struct(userSchema)
+	if eValidation != nil {
+		return c.JSON(http.StatusUnprocessableEntity, schemas.Responses{
+			StatusCode: http.StatusUnprocessableEntity,
+			Message:    "failed update user",
+			Data:       strings.Split(eValidation.Error(), "tag\n"),
+		})
+	}
+
+	user, err := h.user.Update(userSchema)
+	if err.Code != 0 {
+		return c.JSON(err.Code, schemas.Responses{
+			StatusCode: err.Code,
+			Message:    err.Type,
+		})
+	}
+
+	return c.JSON(http.StatusOK, schemas.Responses{
+		StatusCode: http.StatusOK,
+		Message:    "Success update user",
+		Data:       user,
+	})
+}
 
 /**
 * =====================================
 * Handler Get All User
 *======================================
  */
-// func (h *handleUser) GetAll(c echo.Context) {
-// 	user := new(schemas.User)
-// 	if err := c.Bind(user); err != nil {
-// 		return c.JSON(http.StatusBadRequest, "create failed")
-// 	}
+func (h *handleUser) GetAll(c echo.Context) error {
+	users, err := h.user.GetAll()
+	if err.Code != 0 {
+		return c.JSON(err.Code, schemas.Responses{
+			StatusCode: err.Code,
+			Message:    err.Type,
+		})
+	}
 
-// 	_, err := h.user.GetAll()
-// 	if err.Code != 0 {
-// 		return c.JSON(http.StatusBadRequest, "create failed")
-// 	}
-
-// 	return c.JSON(http.StatusCreated, "success")
-// }
+	return c.JSON(http.StatusOK, schemas.Responses{
+		StatusCode: http.StatusOK,
+		Message:    "Success update user",
+		Data:       users,
+	})
+}
 
 /**
 * =====================================
 * Handler Get Spesific User
 *======================================
  */
-// func (h *handleUser) Get(c echo.Context) {
-// 	user := new(schemas.User)
-// 	if err := c.Bind(user); err != nil {
-// 		return c.JSON(http.StatusBadRequest, "create failed")
-// 	}
+func (h *handleUser) Get(c echo.Context) error {
+	if c.Param("id") == "" {
+		return c.JSON(http.StatusOK, schemas.Responses{
+			StatusCode: http.StatusUnprocessableEntity,
+			Message:    "param id is required",
+		})
+	}
 
-// 	_, err := h.user.Get(user)
-// 	if err.Code != 0 {
-// 		return c.JSON(http.StatusBadRequest, "create failed")
-// 	}
+	userSchema := new(schemas.User)
+	userSchema.ID = c.Param("id")
 
-// 	return c.JSON(http.StatusCreated, "success")
-// }
+	user, err := h.user.Get(userSchema)
+	if err.Code != 0 {
+		return c.JSON(err.Code, schemas.Responses{
+			StatusCode: err.Code,
+			Message:    err.Type,
+		})
+	}
+
+	return c.JSON(http.StatusOK, schemas.Responses{
+		StatusCode: http.StatusOK,
+		Message:    "found 1 user",
+		Data:       user,
+	})
+}
 
 /**
 * =====================================
 * Handler Delete User
 *======================================
  */
-// func (h *handleUser) Delete(c echo.Context) {
-// 	user := new(schemas.User)
-// 	if err := c.Bind(user); err != nil {
-// 		return c.JSON(http.StatusBadRequest, "create failed")
-// 	}
+func (h *handleUser) Delete(c echo.Context) error {
+	if c.Param("id") == "" {
+		return c.JSON(http.StatusOK, schemas.Responses{
+			StatusCode: http.StatusUnprocessableEntity,
+			Message:    "param id is required",
+		})
+	}
 
-// 	_, err := h.user.Delete(user)
-// 	if err.Code != 0 {
-// 		return c.JSON(http.StatusBadRequest, "create failed")
-// 	}
+	userSchema := new(schemas.User)
+	userSchema.ID = c.Param("id")
 
-// 	return c.JSON(http.StatusCreated, "success")
-// }
+	user, err := h.user.Delete(userSchema)
+	if err.Code != 0 {
+		return c.JSON(err.Code, schemas.Responses{
+			StatusCode: err.Code,
+			Message:    err.Type,
+		})
+	}
+
+	return c.JSON(http.StatusOK, schemas.Responses{
+		StatusCode: http.StatusOK,
+		Message:    "success delete user",
+		Data:       user,
+	})
+}

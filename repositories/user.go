@@ -76,7 +76,7 @@ func (r *repositoryUser) CheckEmailExistOnCreate(email string) (*models.User, sc
 func (r *repositoryUser) CheckEmailExistOnUpdate(email string, userId string) (*models.User, schemas.DatabaseError) {
 	var user models.User
 
-	r.db.Where("email = ? and id != ?", email, userId).Find(&user)
+	r.db.Debug().Where("email = ? and id != ?", email, userId).Find(&user)
 	return &user, schemas.DatabaseError{}
 }
 

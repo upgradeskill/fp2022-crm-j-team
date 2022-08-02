@@ -15,8 +15,8 @@ func NewRouteUser(db *gorm.DB, router *echo.Echo) {
 
 	route := router.Group("/api/v1/")
 	route.POST("users", handler.Create)
-	// route.PUT("users/:id", handler.Update)
-	// route.DELETE("users/:id", handler.Delete)
-	// route.GET("users", handler.Get)
-	// route.GET("users/:id", handler.Get)
+	route.GET("users", handler.Get)
+	route.GET("users/:id", handler.Get)
+	route.PUT("users/:id", handler.Update)
+	route.DELETE("users/:id", handler.Delete)
 }
