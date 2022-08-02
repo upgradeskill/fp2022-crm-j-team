@@ -3,16 +3,17 @@ package services
 import (
 	"net/http"
 
+	"github.com/upgradeskill/fp2022-crm-j-team/helpers"
 	"github.com/upgradeskill/fp2022-crm-j-team/models"
 	"github.com/upgradeskill/fp2022-crm-j-team/ports"
 	"github.com/upgradeskill/fp2022-crm-j-team/schemas"
 )
 
 type serviceUser struct {
-	user ports.UserInterface
+	user ports.UserRepositoryInterface
 }
 
-func NewServiceUser(user ports.UserInterface) *serviceUser {
+func NewServiceUser(user ports.UserRepositoryInterface) *serviceUser {
 	return &serviceUser{user: user}
 }
 
@@ -31,11 +32,12 @@ func (s *serviceUser) Create(input *schemas.User) (*models.User, schemas.Databas
 	}
 
 	user := models.User{
-		Name:     input.Name,
-		Email:    input.Email,
-		Password: input.Password,
-		Role:     input.Role,
-		OutletId: input.OutletId,
+		Name:      input.Name,
+		Email:     input.Email,
+		Password:  input.Password,
+		Role:      input.Role,
+		OutletId:  input.OutletId,
+		CreatedBy: helpers.SessionUser().ID,
 	}
 
 	res, err := s.user.Create(&user)
@@ -65,12 +67,13 @@ func (s *serviceUser) Update(input *schemas.User) (*models.User, schemas.Databas
 	}
 
 	user := models.User{
-		ID:       input.ID,
-		Name:     input.Name,
-		Email:    input.Email,
-		Password: input.Password,
-		Role:     input.Role,
-		OutletId: input.OutletId,
+		ID:        input.ID,
+		Name:      input.Name,
+		Email:     input.Email,
+		Password:  input.Password,
+		Role:      input.Role,
+		OutletId:  input.OutletId,
+		UpdatedBy: helpers.SessionUser().ID,
 	}
 
 	res, err := s.user.Update(&user)
@@ -92,7 +95,8 @@ func (s *serviceUser) Delete(input *schemas.User) (*models.User, schemas.Databas
 	}
 
 	user := models.User{
-		ID: input.ID,
+		ID:        input.ID,
+		DeletedBy: helpers.SessionUser().ID,
 	}
 
 	res, err := s.user.Delete(&user)

@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	"github.com/upgradeskill/fp2022-crm-j-team/models"
-	"github.com/upgradeskill/fp2022-crm-j-team/ports"
 	"github.com/upgradeskill/fp2022-crm-j-team/schemas"
 	"gorm.io/gorm"
 )
@@ -13,7 +12,7 @@ type repositoryUser struct {
 	db *gorm.DB
 }
 
-func NewRepositoryUser(db *gorm.DB) ports.UserInterface {
+func NewRepositoryUser(db *gorm.DB) *repositoryUser {
 	return &repositoryUser{db: db}
 }
 
@@ -77,7 +76,7 @@ func (r *repositoryUser) CheckEmailExistOnCreate(email string) (*models.User, sc
 func (r *repositoryUser) CheckEmailExistOnUpdate(email string, userId string) (*models.User, schemas.DatabaseError) {
 	var user models.User
 
-	r.db.Where("email = ? and id != ?", email, userId).Find(&user)
+	r.db.Debug().Where("email = ? and id != ?", email, userId).Find(&user)
 	return &user, schemas.DatabaseError{}
 }
 
