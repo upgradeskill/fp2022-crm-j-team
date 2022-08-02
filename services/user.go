@@ -19,6 +19,23 @@ func NewServiceUser(user ports.UserRepositoryInterface) *serviceUser {
 
 /**
 * ==========================================
+* Service Login
+*===========================================
+ */
+func (s *serviceUser) Login(input *schemas.UserLogin) (*models.User, schemas.DatabaseError) {
+	res, err := s.user.Login(input.Email, input.Password)
+	if res.ID == "" {
+		return res, schemas.DatabaseError{
+			Code: http.StatusBadRequest,
+			Type: "user not found",
+		}
+	}
+
+	return res, err
+}
+
+/**
+* ==========================================
 * Service Create User
 *===========================================
  */
@@ -110,6 +127,13 @@ func (s *serviceUser) Delete(input *schemas.User) (*models.User, schemas.Databas
  */
 func (s *serviceUser) Get(input *schemas.User) (*models.User, schemas.DatabaseError) {
 	res, err := s.user.Get(input.ID)
+	if res.ID == "" {
+		return res, schemas.DatabaseError{
+			Code: http.StatusNotFound,
+			Type: "user not found",
+		}
+	}
+
 	return res, err
 }
 

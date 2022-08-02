@@ -56,13 +56,13 @@ func (r *repositoryUser) Get(userId string) (*models.User, schemas.DatabaseError
 	var user models.User
 
 	r.db.Where("id = ?", userId).Find(&user)
-	if user.ID == "" {
-		return &user, schemas.DatabaseError{
-			Code: http.StatusNotFound,
-			Type: "user not found",
-		}
-	}
+	return &user, schemas.DatabaseError{}
+}
 
+func (r *repositoryUser) Login(email string, password string) (*models.User, schemas.DatabaseError) {
+	var user models.User
+
+	r.db.Where("email = ? and password = ?", email, password).Find(&user)
 	return &user, schemas.DatabaseError{}
 }
 
@@ -76,7 +76,7 @@ func (r *repositoryUser) CheckEmailExistOnCreate(email string) (*models.User, sc
 func (r *repositoryUser) CheckEmailExistOnUpdate(email string, userId string) (*models.User, schemas.DatabaseError) {
 	var user models.User
 
-	r.db.Debug().Where("email = ? and id != ?", email, userId).Find(&user)
+	r.db.Where("email = ? and id != ?", email, userId).Find(&user)
 	return &user, schemas.DatabaseError{}
 }
 
