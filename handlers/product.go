@@ -56,6 +56,8 @@ func (h *handleProduct) GetAll(c echo.Context) error {
 	product.Name = c.QueryParam("name")
 	product.SKU, _ = strconv.ParseUint(c.QueryParam("sku"), 10, 64)
 	product.CategoryId = c.QueryParam("category_id")
+	product.Page, _ = strconv.Atoi(c.QueryParam("page"))
+	product.PageSize, _ = strconv.Atoi(c.QueryParam("page_size"))
 
 	res, err := h.product.GetAll(product)
 	if err.Code != 0 {

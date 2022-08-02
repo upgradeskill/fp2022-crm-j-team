@@ -3,6 +3,7 @@ package repositories
 import (
 	"gorm.io/gorm"
 
+	"github.com/upgradeskill/fp2022-crm-j-team/helpers"
 	"github.com/upgradeskill/fp2022-crm-j-team/models"
 	"github.com/upgradeskill/fp2022-crm-j-team/schemas"
 )
@@ -37,19 +38,23 @@ func (r *repositoryProduct) Get(input *schemas.Product) (*models.Product, schema
 }
 
 func (r *repositoryProduct) GetAll(input *schemas.Product) (*[]models.Product, schemas.DatabaseError) {
-	var product []models.Product
+	var products []models.Product
+
+	query := r.db.Scopes(helpers.Paginate(input.Page, input.PageSize))
 
 	if input.ID != "" {
-		r.db.Where("id like ?", "%"+input.ID+"%")
+		query.Where("id like ?", "%"+input.ID+"%")
 	}
 
 	if input.Name != "" {
-		r.db.Where("name like ?", "%"+input.Name+"%")
+		query.Where("name like ?", "%"+input.Name+"%")
 	}
 
 	if input.CategoryId != "" {
-		r.db.Where("category_id like ?", "%"+input.CategoryId+"%")
+		query.Where("category_id like ?", "%"+input.CategoryId+"%")
 	}
 
-	return &product, schemas.DatabaseError{}
+	query.Find(&products)
+
+	return &products, schemas.DatabaseError{}
 }
