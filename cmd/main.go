@@ -37,6 +37,7 @@ func main() {
 	routes.NewRouteCategory(db, app)
 	routes.NewRouteUser(db, app)
 	routes.Transaction(db, app)
+	routes.OutletProduct(db, app)
 
 	/**
 	* ========================
