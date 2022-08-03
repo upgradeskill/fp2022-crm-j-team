@@ -80,6 +80,7 @@ func setupDatabase() *gorm.DB {
 		&models.Product{},
 		&models.Outlet{},
 		&models.OutletProduct{},
+		&models.User{},
 	)
 
 	if err != nil {
@@ -87,6 +88,9 @@ func setupDatabase() *gorm.DB {
 		logrus.Fatal(err)
 		return nil
 	}
+
+	// Import Seeder
+	// importSeeder(db)
 
 	return db
 }
@@ -102,4 +106,28 @@ func setupApp() *echo.Echo {
 	app := echo.New()
 
 	return app
+}
+
+/**
+* ========================
+* Import Seeder
+* ========================
+ */
+
+func importSeeder(db *gorm.DB) {
+	var users = []models.User{
+		{
+			Name:     "Test owner",
+			Role:     "owner",
+			Password: "owner",
+			Email:    "owner@majoo.id",
+		},
+		{
+			Name:     "Test staff",
+			Role:     "staff",
+			Password: "staff",
+			Email:    "staff@majoo.id",
+		},
+	}
+	db.Create(users)
 }

@@ -17,14 +17,16 @@ type UserLogin struct {
 }
 
 type LoggedUser struct {
-	ID    string `json:"id"`
-	Email string `json:"email"`
-	Role  string `json:"role"`
+	ID       string `json:"id"`
+	Email    string `json:"email"`
+	Role     string `json:"role"`
+	OutletId string `json:"outlet_id"`
 }
 
 type JwtUserClaims struct {
-	ID    string `json:"id"`
-	Email string `json:"email"`
-	Role  string `json:"role"`
+	ID       string `json:"id"`
+	Email    string `json:"email"`
+	Role     string `json:"role"`
+	OutletId string `json:"outlet_id"`
 	jwt.StandardClaims
 }

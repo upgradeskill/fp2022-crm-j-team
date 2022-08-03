@@ -136,11 +136,6 @@ func (h *handleUser) GetAll(c echo.Context) error {
 *======================================
  */
 func (h *handleUser) Get(c echo.Context) error {
-	if c.Param("id") == "" {
-		helpers.APIResponse(c, "Param id is required", http.StatusUnprocessableEntity, nil)
-		return nil
-	}
-
 	userSchema := new(schemas.User)
 	userSchema.ID = c.Param("id")
 

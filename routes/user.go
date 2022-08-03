@@ -3,6 +3,7 @@ package routes
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/upgradeskill/fp2022-crm-j-team/handlers"
+	"github.com/upgradeskill/fp2022-crm-j-team/middlewares"
 	"github.com/upgradeskill/fp2022-crm-j-team/repositories"
 	"github.com/upgradeskill/fp2022-crm-j-team/services"
 	"gorm.io/gorm"
@@ -14,11 +15,11 @@ func NewRouteUser(db *gorm.DB, router *echo.Echo) {
 	handler := handlers.NewHandlerUser(service)
 
 	route := router.Group("/api/v1/")
-	route.POST("users", handler.Create)
-	route.GET("users", handler.Get)
-	route.GET("users/:id", handler.Get)
-	route.PUT("users/:id", handler.Update)
-	route.DELETE("users/:id", handler.Delete)
+	route.POST("users", handler.Create, middlewares.Auth("user|owner"))
+	route.GET("users", handler.GetAll, middlewares.Auth("user|owner"))
+	route.GET("users/:id", handler.Get, middlewares.Auth("user|owner"))
+	route.PUT("users/:id", handler.Update, middlewares.Auth("user|owner"))
+	route.DELETE("users/:id", handler.Delete, middlewares.Auth("user|owner"))
 
 	route.POST("login", handler.Login)
 }

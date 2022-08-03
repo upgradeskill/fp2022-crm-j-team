@@ -62,7 +62,7 @@ func (r *repositoryUser) Get(userId string) (*models.User, schemas.DatabaseError
 func (r *repositoryUser) Login(email string, password string) (*models.User, schemas.DatabaseError) {
 	var user models.User
 
-	r.db.Where("email = ? and password = ?", email, password).Find(&user)
+	r.db.Debug().Where("email = ? and password = ?", email, password).Find(&user)
 	return &user, schemas.DatabaseError{}
 }
 

@@ -17,10 +17,14 @@ type UserRepositoryInterface interface {
 }
 
 type UserServiceInterface interface {
-	Create(input *schemas.User) (*models.User, schemas.DatabaseError)
-	Get(input *schemas.User) (*models.User, schemas.DatabaseError)
+	Create(input *schemas.User) (*schemas.User, schemas.DatabaseError)
+	Get(input *schemas.User) (*schemas.User, schemas.DatabaseError)
 	GetAll() (*[]models.User, schemas.DatabaseError)
-	Login(input *schemas.UserLogin) (*models.User, schemas.DatabaseError)
-	Update(input *schemas.User) (*models.User, schemas.DatabaseError)
-	Delete(input *schemas.User) (*models.User, schemas.DatabaseError)
+	Login(input *schemas.UserLogin) (interface{}, schemas.DatabaseError)
+	Update(input *schemas.User) (*schemas.User, schemas.DatabaseError)
+	Delete(input *schemas.User) (*schemas.User, schemas.DatabaseError)
+}
+
+type UserSeederInterface interface {
+	ImportSeeder()
 }

@@ -7,13 +7,24 @@ type UserLogin struct {
 	OutletId string
 }
 
+var userLogin = UserLogin{}
+
 func SessionUser() *UserLogin {
 	user := UserLogin{
-		ID:    "b21e233d-f73e-4c87-b994-d4bc74038dec",
-		Email: "wahyu@majoo.id",
-		Role:  "owner",
-		OutletId: "fa326580-6bdf-44c7-b2fb-8492d5682aea	",
+		ID:       userLogin.ID,
+		Email:    userLogin.Email,
+		Role:     userLogin.Role,
+		OutletId: userLogin.OutletId,
 	}
 
 	return &user
+}
+
+func SetSession(id string, email string, role string, outlet_id string) *UserLogin {
+	userLogin.ID = id
+	userLogin.Email = email
+	userLogin.Role = role
+	userLogin.OutletId = outlet_id
+
+	return &userLogin
 }
