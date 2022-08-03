@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 
@@ -35,6 +37,7 @@ func main() {
 	routes.Product(db, app)
 	routes.NewRouteCategory(db, app)
 	routes.NewRouteUser(db, app)
+	routes.Transaction(db, app)
 
 	/**
 	* ========================
@@ -73,6 +76,7 @@ func setupDatabase() *gorm.DB {
 		&models.Product{},
 		&models.Outlet{},
 		&models.OutletProduct{},
+		&models.Transaction{},
 	)
 
 	helpers.LogIfError(err, "Database migration failed")
@@ -89,6 +93,12 @@ func setupDatabase() *gorm.DB {
 func setupApp() *echo.Echo {
 
 	app := echo.New()
+
+	app.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+		AllowMethods: []string{http.MethodGet, http.MethodPut, http.MethodPost, http.MethodDelete},
+	}))
 
 	return app
 }

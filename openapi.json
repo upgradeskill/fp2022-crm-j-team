@@ -241,6 +241,214 @@
           }
         }
       }
+    },
+    "/transaction": {
+      "get": {
+        "security": [{ "JWT": [] }],
+        "tags": ["Transaction"],
+        "description": "list all transaction",
+        "summary": "list all transaction",
+        "responses": {
+          "200": {
+            "description": "Success get all transaction",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Transaction"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "security": [{ "JWT": [] }],
+        "tags": ["Transaction"],
+        "description": "create new transaction",
+        "summary": "create new transaction",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/CreateOrUpdateTransaction"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success Create Transaction",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "items": {
+                        "$ref": "#/components/schemas/Transaction"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transaction/{id}": {
+      "get": {
+        "security": [{ "JWT": [] }],
+        "tags": ["Transaction"],
+        "description": "get transaction by id",
+        "summary": "get transaction by id",
+        "parameters": [
+          {
+            "required": true,
+            "name": "id",
+            "in": "path",
+            "description": "transaction id",
+            "schema": {
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success get transaction",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "items": {
+                        "$ref": "#/components/schemas/Transaction"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [{ "JWT": [] }],
+        "tags": ["Transaction"],
+        "description": "update transaction by id",
+        "summary": "update transaction by id",
+        "parameters": [
+          {
+            "required": true,
+            "name": "id",
+            "in": "path",
+            "description": "transaction id",
+            "schema": {
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/CreateOrUpdateTransaction"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success get transaction",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "items": {
+                        "$ref": "#/components/schemas/Transaction"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [{ "JWT": [] }],
+        "tags": ["Transaction"],
+        "description": "delete transaction by id",
+        "summary": "delete transaction by id",
+        "parameters": [
+          {
+            "required": true,
+            "name": "id",
+            "in": "path",
+            "description": "transaction id",
+            "schema": {
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success delete transaction",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -253,6 +461,37 @@
       }
     },
     "schemas": {
+      "CreateOrUpdateTransaction": {
+        "type": "object",
+        "items": {
+          "type": "object"
+        },
+        "properties": {
+          "outlet_product_id": {
+            "type": "string"
+          },
+          "qty": {
+            "type": "number"
+          },
+          "staff_id": {
+            "type": "string"
+          }
+        }
+      },
+      "Transaction": {
+        "type": "object",
+        "items": {
+          "type": "object"
+        },
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
       "CreateOrUpdateCategory": {
         "type": "object",
         "items": {
