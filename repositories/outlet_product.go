@@ -5,7 +5,6 @@ import (
 
 	"gorm.io/gorm"
 
-	"github.com/upgradeskill/fp2022-crm-j-team/helpers"
 	"github.com/upgradeskill/fp2022-crm-j-team/models"
 	"github.com/upgradeskill/fp2022-crm-j-team/schemas"
 )
@@ -20,12 +19,10 @@ func OutletProduct(db *gorm.DB) *repositoryOutletProduct {
 
 func (r *repositoryOutletProduct) Create(input *schemas.OutletProduct) (*models.OutletProduct, schemas.DatabaseError) {
 	var outletProduct models.OutletProduct
-	outletProduct.ID = input.ID
 	outletProduct.OutletId = input.OutletId
 	outletProduct.ProductId = input.ProductId
 	outletProduct.Price = input.Price
 	outletProduct.Stock = input.Stock
-	outletProduct.CreatedBy = helpers.SessionUser().ID
 
 	res := r.db.Debug().Create(&outletProduct)
 	if res.RowsAffected < 1 {
