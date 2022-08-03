@@ -1,6 +1,8 @@
 package helpers
 
-import "github.com/sirupsen/logrus"
+import (
+	"github.com/sirupsen/logrus"
+)
 
 func LogIfError(err error, message string) {
 	if err != nil {
