@@ -29,7 +29,7 @@ func (r *repositoryOutlet) Create(input *schemas.Outlet) (*models.Outlet, schema
 	outlet.Name = input.Name
 	outlet.Phone = input.Phone
 	outlet.Address = input.Address
-	outlet.CreatedBy = "system"
+	outlet.CreatedBy = helpers.SessionUser().Email
 
 	db := r.db.Model(&outlet)
 
@@ -89,7 +89,7 @@ func (r *repositoryOutlet) Update(input *schemas.Outlet) (*models.Outlet, schema
 	outlet.Phone = input.Phone
 	outlet.Address = input.Address
 	outlet.UpdatedAt = time.Now()
-	outlet.UpdatedBy = "system"
+	outlet.UpdatedBy = helpers.SessionUser().Email
 
 	db := r.db.Model(&outlet)
 
@@ -107,7 +107,7 @@ func (r *repositoryOutlet) Update(input *schemas.Outlet) (*models.Outlet, schema
 func (r *repositoryOutlet) Delete(input *schemas.Outlet) (*models.Outlet, schemas.DatabaseError) {
 	var outlet models.Outlet
 	outlet.ID = input.ID
-	outlet.DeletedBy = "system"
+	outlet.DeletedBy = helpers.SessionUser().Email
 
 	db := r.db.Model(&outlet)
 
