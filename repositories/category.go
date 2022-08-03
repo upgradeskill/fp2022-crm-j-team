@@ -3,6 +3,7 @@ package repositories
 import (
 	"time"
 
+	"github.com/upgradeskill/fp2022-crm-j-team/helpers"
 	"github.com/upgradeskill/fp2022-crm-j-team/models"
 	"github.com/upgradeskill/fp2022-crm-j-team/schemas"
 	"gorm.io/gorm"
@@ -44,8 +45,6 @@ func (r *repositoryCategory) Create(input *schemas.Category) (*models.Category, 
 
 func (r *repositoryCategory) GetAll(input *schemas.Category) (*[]models.Category, schemas.DatabaseError) {
 	var category []models.Category
-	limit := 10
-	page := input.Page
 
 	db := r.db.Model(&category)
 
@@ -53,13 +52,7 @@ func (r *repositoryCategory) GetAll(input *schemas.Category) (*[]models.Category
 		db.Where("name like ?", "%"+input.Name+"%")
 	}
 
-	if page > 1 {
-		page = (page * limit) - limit
-	} else {
-		page = 0
-	}
-
-	db.Limit(limit).Offset(page)
+	db.Scopes(helpers.Paginate(input.Page, input.PageSize))
 	db.Debug().Find(&category)
 
 	return &category, schemas.DatabaseError{}

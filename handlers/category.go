@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/labstack/echo/v4"
+	"github.com/upgradeskill/fp2022-crm-j-team/helpers"
 	"github.com/upgradeskill/fp2022-crm-j-team/ports"
 	"github.com/upgradeskill/fp2022-crm-j-team/schemas"
 )
@@ -95,28 +96,20 @@ func (h *handleCategory) Get(c echo.Context) error {
 
 func (h *handleCategory) GetAll(c echo.Context) error {
 
-	var pageNum int
-
 	category := new(schemas.Category)
 	category.Name = c.QueryParam("name")
-	initPage := c.QueryParam("page")
-
-	if initPage != "" {
-		number, _ := strconv.Atoi(initPage)
-		pageNum = number
-	} else {
-		pageNum = 1
-	}
-
-	category.Page = pageNum
+	category.Page, _ = strconv.Atoi(c.QueryParam("page"))
+	category.PageSize, _ = strconv.Atoi(c.QueryParam("page_size"))
 
 	res, err := h.category.GetAll(category)
 
 	if err.Code != 0 {
-		return c.JSON(http.StatusBadRequest, "get failed")
+		helpers.APIResponse(c, "Failed to get category data", err.Code, nil)
+		return nil
 	}
 
-	return c.JSON(http.StatusOK, res)
+	helpers.APIResponse(c, "Success get category data", http.StatusOK, res)
+	return nil
 }
 
 /**

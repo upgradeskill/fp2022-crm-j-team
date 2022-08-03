@@ -5,4 +5,5 @@ type Category struct {
 	Name        string `json:"name" validate:"required,lowercase"`
 	Description string `json:"description"`
 	Page        int    `json:"page"`
+	PageSize    int    `json:"page_size"`
 }
