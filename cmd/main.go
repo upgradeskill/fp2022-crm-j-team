@@ -4,10 +4,10 @@ import (
 	"fmt"
 
 	"github.com/labstack/echo/v4"
-	"github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 
+	"github.com/upgradeskill/fp2022-crm-j-team/helpers"
 	"github.com/upgradeskill/fp2022-crm-j-team/models"
 	"github.com/upgradeskill/fp2022-crm-j-team/pkg"
 	"github.com/upgradeskill/fp2022-crm-j-team/routes"
@@ -43,11 +43,8 @@ func main() {
 	 */
 
 	err := app.Start(":" + pkg.GodotEnv("PORT"))
+	helpers.LogIfError(err, "Server is not running")
 
-	if err != nil {
-		defer logrus.Error("Server is not running")
-		logrus.Fatal(err)
-	}
 }
 
 /**
@@ -68,11 +65,7 @@ func setupDatabase() *gorm.DB {
 				pkg.GodotEnv("MYSQL_DB"),
 			)), &gorm.Config{})
 
-	if err != nil {
-		defer logrus.Info("Database connection failed")
-		logrus.Fatal(err)
-		return nil
-	}
+	helpers.LogIfError(err, "Database connection failed")
 
 	//  Initialize all model for auto migration here
 	err = db.AutoMigrate(
@@ -83,11 +76,7 @@ func setupDatabase() *gorm.DB {
 		&models.User{},
 	)
 
-	if err != nil {
-		defer logrus.Info("Database migration failed")
-		logrus.Fatal(err)
-		return nil
-	}
+	helpers.LogIfError(err, "Database migration failed")
 
 	// Import Seeder
 	// importSeeder(db)
