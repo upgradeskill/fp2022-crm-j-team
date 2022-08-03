@@ -1,6 +1,8 @@
 package repositories
 
 import (
+	"net/http"
+
 	"gorm.io/gorm"
 
 	"github.com/upgradeskill/fp2022-crm-j-team/helpers"
@@ -31,8 +33,17 @@ func (r *repositoryProduct) Create(input *schemas.Product) (*models.Product, sch
 }
 
 func (r *repositoryProduct) Get(input *schemas.Product) (*models.Product, schemas.DatabaseError) {
-	var product models.Product
-	r.db.Where("id = ?", input.ID).First(&product)
+	product := models.Product{}
+
+	checkProductId := r.db.Debug().Where("id = ?", input.ID).First(&product)
+
+	if checkProductId.RowsAffected < 1 {
+		err := schemas.DatabaseError{
+			Code: http.StatusNotFound,
+			Type: "error_result_01",
+		}
+		return &product, err
+	}
 
 	return &product, schemas.DatabaseError{}
 }
