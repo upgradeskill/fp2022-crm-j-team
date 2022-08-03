@@ -58,11 +58,6 @@ func (h *handleProduct) Get(c echo.Context) error {
 		return nil
 	}
 
-	if res == nil {
-		helpers.APIResponse(c, "Product not found", http.StatusNotFound, nil)
-		return nil
-	}
-
 	helpers.APIResponse(c, "Success", http.StatusOK, res)
 	return nil
 }
