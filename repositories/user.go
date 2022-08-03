@@ -3,6 +3,7 @@ package repositories
 import (
 	"net/http"
 
+	"github.com/upgradeskill/fp2022-crm-j-team/helpers"
 	"github.com/upgradeskill/fp2022-crm-j-team/models"
 	"github.com/upgradeskill/fp2022-crm-j-team/schemas"
 	"gorm.io/gorm"
@@ -59,10 +60,10 @@ func (r *repositoryUser) Get(userId string) (*models.User, schemas.DatabaseError
 	return &user, schemas.DatabaseError{}
 }
 
-func (r *repositoryUser) Login(email string, password string) (*models.User, schemas.DatabaseError) {
+func (r *repositoryUser) Login(email string) (*models.User, schemas.DatabaseError) {
 	var user models.User
 
-	r.db.Where("email = ? and password = ?", email, password).Find(&user)
+	r.db.Where("email = ?", email).Find(&user)
 	return &user, schemas.DatabaseError{}
 }
 
@@ -80,9 +81,28 @@ func (r *repositoryUser) CheckEmailExistOnUpdate(email string, userId string) (*
 	return &user, schemas.DatabaseError{}
 }
 
-func (r *repositoryUser) GetAll() (*[]models.User, schemas.DatabaseError) {
+func (r *repositoryUser) GetAll(input *schemas.User) (*[]models.User, schemas.DatabaseError) {
 	var user []models.User
+	db := r.db.Model(&user)
 
-	r.db.Find(&user)
+	if input.Name != "" {
+		db.Where("name like ?", "%"+input.Name+"%")
+	}
+
+	if input.ID != "" {
+		db.Where("id = ?", ""+input.ID+"")
+	}
+
+	if input.OutletId != "" {
+		db.Where("outlet_id = ?", ""+input.OutletId+"")
+	}
+
+	if input.Email != "" {
+		db.Where("email = ?", "%"+input.Email+"%")
+	}
+
+	db.Scopes(helpers.Paginate(input.Page, input.PageSize))
+	db.Find(&user)
+
 	return &user, schemas.DatabaseError{}
 }

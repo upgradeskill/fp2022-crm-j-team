@@ -5,6 +5,7 @@ import (
 
 	"github.com/upgradeskill/fp2022-crm-j-team/helpers"
 	"github.com/upgradeskill/fp2022-crm-j-team/models"
+	"github.com/upgradeskill/fp2022-crm-j-team/pkg"
 	"github.com/upgradeskill/fp2022-crm-j-team/ports"
 	"github.com/upgradeskill/fp2022-crm-j-team/schemas"
 )
@@ -22,8 +23,8 @@ func NewServiceUser(user ports.UserRepositoryInterface) *serviceUser {
 * Service Login
 *===========================================
  */
-func (s *serviceUser) Login(input *schemas.UserLogin) (*models.User, schemas.DatabaseError) {
-	res, err := s.user.Login(input.Email, input.Password)
+func (s *serviceUser) Login(input *schemas.UserLogin) (interface{}, schemas.DatabaseError) {
+	res, err := s.user.Login(input.Email)
 	if res.ID == "" {
 		return res, schemas.DatabaseError{
 			Code: http.StatusUnprocessableEntity,
@@ -31,7 +32,23 @@ func (s *serviceUser) Login(input *schemas.UserLogin) (*models.User, schemas.Dat
 		}
 	}
 
-	return res, err
+	checkIsPasswordVerified := pkg.CheckPasswordHash(input.Password, res.Password)
+	if !checkIsPasswordVerified {
+		return res, schemas.DatabaseError{
+			Code: http.StatusUnprocessableEntity,
+			Type: "password wrong",
+		}
+	}
+
+	token, _ := pkg.GenerateTokenJwt(res.ID, res.Email, res.Role, res.OutletId)
+
+	return map[string]string{
+		"id":        res.ID,
+		"email":     res.Email,
+		"role":      res.Role,
+		"outlet_id": res.OutletId,
+		"token":     token,
+	}, err
 }
 
 /**
@@ -48,10 +65,17 @@ func (s *serviceUser) Create(input *schemas.User) (*models.User, schemas.Databas
 		}
 	}
 
+	if input.Role != "owner" && input.Role != "staff" {
+		return result, schemas.DatabaseError{
+			Code: http.StatusUnprocessableEntity,
+			Type: "role must between 'owner' or 'staff'",
+		}
+	}
+
 	user := models.User{
 		Name:      input.Name,
 		Email:     input.Email,
-		Password:  input.Password,
+		Password:  pkg.HashPassword(input.Password),
 		Role:      input.Role,
 		OutletId:  input.OutletId,
 		CreatedBy: helpers.SessionUser().ID,
@@ -81,6 +105,10 @@ func (s *serviceUser) Update(input *schemas.User) (*models.User, schemas.Databas
 			Code: http.StatusUnprocessableEntity,
 			Type: "user already exists",
 		}
+	}
+
+	if input.Password != "" {
+		input.Password = pkg.HashPassword(input.Password)
 	}
 
 	user := models.User{
@@ -142,7 +170,7 @@ func (s *serviceUser) Get(input *schemas.User) (*models.User, schemas.DatabaseEr
 * Service Get all user
 *===========================================
  */
-func (s *serviceUser) GetAll() (*[]models.User, schemas.DatabaseError) {
-	res, err := s.user.GetAll()
+func (s *serviceUser) GetAll(input *schemas.User) (*[]models.User, schemas.DatabaseError) {
+	res, err := s.user.GetAll(input)
 	return res, err
 }

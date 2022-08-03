@@ -67,9 +67,8 @@ func TestSuccessLogin(t *testing.T) {
 		Password: createUserSchema.Password,
 	}
 
-	user, err := service.Login(&userLogin)
+	_, err := service.Login(&userLogin)
 
-	assert.Equal(t, user.Name, createUserSchema.Name, "Name must match")
 	assert.Equal(t, "", err.Type, "Error Type must blank")
 }
 
@@ -179,7 +178,7 @@ func TestSuccessGetAllUsers(t *testing.T) {
 	repo := repositories.NewRepositoryUser(db)
 	service := NewServiceUser(repo)
 
-	_, err := service.GetAll()
+	_, err := service.GetAll(&schemas.User{})
 
 	assert.Equal(t, "", err.Type, "Error Type must empty")
 }
