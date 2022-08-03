@@ -25,9 +25,15 @@ func (r *repositoryProduct) Create(input *schemas.Product) (*models.Product, sch
 	product.SKU = input.SKU
 	product.CategoryId = input.CategoryId
 	product.CreatedBy = "system" // temporary hardcode
-	db := r.db.Model(&product)
 
-	db.Create(&product)
+	res := r.db.Debug().Create(&product)
+	if res.RowsAffected < 1 {
+		err := schemas.DatabaseError{
+			Code: http.StatusNotFound,
+			Type: "error_result_01",
+		}
+		return &product, err
+	}
 
 	return &product, schemas.DatabaseError{}
 }
@@ -35,9 +41,9 @@ func (r *repositoryProduct) Create(input *schemas.Product) (*models.Product, sch
 func (r *repositoryProduct) Get(input *schemas.Product) (*models.Product, schemas.DatabaseError) {
 	product := models.Product{}
 
-	checkProductId := r.db.Debug().Where("id = ?", input.ID).First(&product)
+	res := r.db.Debug().Where("id = ?", input.ID).First(&product)
 
-	if checkProductId.RowsAffected < 1 {
+	if res.RowsAffected < 1 {
 		err := schemas.DatabaseError{
 			Code: http.StatusNotFound,
 			Type: "error_result_01",
@@ -77,19 +83,32 @@ func (r *repositoryProduct) Update(input *schemas.Product) (*models.Product, sch
 	product.SKU = input.SKU
 	product.CategoryId = input.CategoryId
 	product.CreatedBy = "system" // temporary hardcode
-	db := r.db.Model(&product)
 
-	db.Updates(&product)
+	res := r.db.Debug().Updates(&product)
+
+	if res.RowsAffected < 1 {
+		err := schemas.DatabaseError{
+			Code: http.StatusNotFound,
+			Type: "error_result_01",
+		}
+		return &product, err
+	}
 
 	return &product, schemas.DatabaseError{}
 }
 
 func (r *repositoryProduct) Delete(input *schemas.Product) (*models.Product, schemas.DatabaseError) {
-	var product models.Product
-	product.ID = input.ID
-	db := r.db.Model(&product)
+	product := models.Product{}
 
-	db.Delete(&product)
+	res := r.db.Debug().Where("id = ?", input.ID).Delete(&product)
+
+	if res.RowsAffected < 1 {
+		err := schemas.DatabaseError{
+			Code: http.StatusNotFound,
+			Type: "error_result_01",
+		}
+		return &product, err
+	}
 
 	return &product, schemas.DatabaseError{}
 }
