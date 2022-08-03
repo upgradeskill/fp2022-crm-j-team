@@ -27,17 +27,14 @@ func Category(category ports.Category) *handleCategory {
 func (h *handleCategory) Create(c echo.Context) error {
 	category := new(schemas.Category)
 
-	if err := c.Bind(category); err != nil {
-		return c.JSON(http.StatusBadRequest, "create failed")
-	}
-
 	_, err := h.category.Create(category)
 
 	if err.Code != 0 {
-		return c.JSON(http.StatusBadRequest, "create failed")
+		helpers.ErrorResponse(c, err)
 	}
 
-	return c.JSON(http.StatusCreated, "success")
+	helpers.APIResponse(c, "Success create category", http.StatusCreated, nil)
+	return nil
 }
 
 /**
@@ -51,17 +48,14 @@ func (h *handleCategory) Update(c echo.Context) error {
 	id := c.Param("id")
 	category.ID = id
 
-	if err := c.Bind(category); err != nil {
-		return c.JSON(http.StatusBadRequest, "update failed")
-	}
-
 	_, err := h.category.Update(category)
 
 	if err.Code != 0 {
-		return c.JSON(http.StatusBadRequest, "update failed")
+		helpers.ErrorResponse(c, err)
 	}
 
-	return c.JSON(http.StatusCreated, "success")
+	helpers.APIResponse(c, "Success update category", http.StatusCreated, nil)
+	return nil
 }
 
 /**
@@ -75,17 +69,14 @@ func (h *handleCategory) Get(c echo.Context) error {
 	id := c.Param("id")
 	category.ID = id
 
-	if err := c.Bind(category); err != nil {
-		return c.JSON(http.StatusBadRequest, "get failed")
-	}
-
 	res, err := h.category.Get(category)
 
 	if err.Code != 0 {
-		return c.JSON(http.StatusBadRequest, "get failed")
+		helpers.ErrorResponse(c, err)
 	}
 
-	return c.JSON(http.StatusOK, res)
+	helpers.APIResponse(c, "Success get data", http.StatusOK, res)
+	return nil
 }
 
 /**
@@ -104,8 +95,7 @@ func (h *handleCategory) GetAll(c echo.Context) error {
 	res, err := h.category.GetAll(category)
 
 	if err.Code != 0 {
-		helpers.APIResponse(c, "Failed to get category data", err.Code, nil)
-		return nil
+		helpers.ErrorResponse(c, err)
 	}
 
 	helpers.APIResponse(c, "Success get category data", http.StatusOK, res)
@@ -123,15 +113,12 @@ func (h *handleCategory) Delete(c echo.Context) error {
 	id := c.Param("id")
 	category.ID = id
 
-	if err := c.Bind(category); err != nil {
-		return c.JSON(http.StatusBadRequest, "delete failed")
-	}
-
 	_, err := h.category.Delete(category)
 
 	if err.Code != 0 {
-		return c.JSON(http.StatusBadRequest, "delete failed")
+		helpers.ErrorResponse(c, err)
 	}
 
-	return c.JSON(http.StatusCreated, "delete success")
+	helpers.APIResponse(c, "Success delete category", http.StatusOK, nil)
+	return nil
 }
