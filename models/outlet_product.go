@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/upgradeskill/fp2022-crm-j-team/helpers"
 	"gorm.io/gorm"
 )
 
@@ -25,12 +24,10 @@ type OutletProduct struct {
 func (m *OutletProduct) BeforeCreate(db *gorm.DB) error {
 	m.ID = uuid.NewString()
 	m.CreatedAt = time.Now()
-	m.CreatedBy = helpers.SessionUser().ID
 	return nil
 }
 
 func (m *OutletProduct) BeforeUpdate(db *gorm.DB) error {
 	m.UpdatedAt = time.Now()
-	m.UpdatedBy = helpers.SessionUser().ID
 	return nil
 }

@@ -24,7 +24,7 @@ func (r *repositoryProduct) Create(input *schemas.Product) (*models.Product, sch
 	product.Name = input.Name
 	product.SKU = input.SKU
 	product.CategoryId = input.CategoryId
-	product.CreatedBy = "system" // temporary hardcode
+	product.CreatedBy = helpers.SessionUser().ID
 
 	res := r.db.Debug().Create(&product)
 	if res.RowsAffected < 1 {
@@ -82,7 +82,7 @@ func (r *repositoryProduct) Update(input *schemas.Product) (*models.Product, sch
 	product.Name = input.Name
 	product.SKU = input.SKU
 	product.CategoryId = input.CategoryId
-	product.CreatedBy = "system" // temporary hardcode
+	product.UpdatedBy = helpers.SessionUser().ID
 
 	res := r.db.Debug().Updates(&product)
 

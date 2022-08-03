@@ -5,6 +5,7 @@ import (
 
 	"gorm.io/gorm"
 
+	"github.com/upgradeskill/fp2022-crm-j-team/helpers"
 	"github.com/upgradeskill/fp2022-crm-j-team/models"
 	"github.com/upgradeskill/fp2022-crm-j-team/schemas"
 )
@@ -23,6 +24,7 @@ func (r *repositoryOutletProduct) Create(input *schemas.OutletProduct) (*models.
 	outletProduct.ProductId = input.ProductId
 	outletProduct.Price = input.Price
 	outletProduct.Stock = input.Stock
+	outletProduct.CreatedBy = helpers.SessionUser().ID
 
 	res := r.db.Debug().Create(&outletProduct)
 	if res.RowsAffected < 1 {
@@ -43,6 +45,7 @@ func (r *repositoryOutletProduct) Update(input *schemas.OutletProduct) (*models.
 	outletProduct.ProductId = input.ProductId
 	outletProduct.Price = input.Price
 	outletProduct.Stock = input.Stock
+	outletProduct.UpdatedBy = helpers.SessionUser().ID
 
 	res := r.db.Debug().Updates(&outletProduct)
 
