@@ -18,3 +18,13 @@ func (s *serviceOutletProduct) Create(outletProduct *schemas.OutletProduct) (*mo
 	res, err := s.outletProductRepository.Create(outletProduct)
 	return res, err
 }
+
+func (s *serviceOutletProduct) Update(outletProduct *schemas.OutletProduct) (*models.OutletProduct, schemas.DatabaseError) {
+	res, err := s.outletProductRepository.Create(outletProduct)
+	return res, err
+}
+
+func (s *serviceOutletProduct) Delete(outletProduct *schemas.OutletProduct) (*models.OutletProduct, schemas.DatabaseError) {
+	res, err := s.outletProductRepository.Delete(outletProduct)
+	return res, err
+}

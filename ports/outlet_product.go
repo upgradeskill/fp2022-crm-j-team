@@ -7,4 +7,6 @@ import (
 
 type OutletProduct interface {
 	Create(input *schemas.OutletProduct) (*models.OutletProduct, schemas.DatabaseError)
+	Update(input *schemas.OutletProduct) (*models.OutletProduct, schemas.DatabaseError)
+	Delete(input *schemas.OutletProduct) (*models.OutletProduct, schemas.DatabaseError)
 }

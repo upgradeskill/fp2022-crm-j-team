@@ -35,3 +35,40 @@ func (r *repositoryOutletProduct) Create(input *schemas.OutletProduct) (*models.
 
 	return &outletProduct, schemas.DatabaseError{}
 }
+
+func (r *repositoryOutletProduct) Update(input *schemas.OutletProduct) (*models.OutletProduct, schemas.DatabaseError) {
+	var outletProduct models.OutletProduct
+	outletProduct.ID = input.ID
+	outletProduct.OutletId = input.OutletId
+	outletProduct.ProductId = input.ProductId
+	outletProduct.Price = input.Price
+	outletProduct.Stock = input.Stock
+
+	res := r.db.Debug().Updates(&outletProduct)
+
+	if res.RowsAffected < 1 {
+		err := schemas.DatabaseError{
+			Code: http.StatusNotFound,
+			Type: "error_result_01",
+		}
+		return &outletProduct, err
+	}
+
+	return &outletProduct, schemas.DatabaseError{}
+}
+
+func (r *repositoryOutletProduct) Delete(input *schemas.OutletProduct) (*models.OutletProduct, schemas.DatabaseError) {
+	outletProduct := models.OutletProduct{}
+
+	res := r.db.Debug().Where("id = ?", input.ID).Delete(&outletProduct)
+
+	if res.RowsAffected < 1 {
+		err := schemas.DatabaseError{
+			Code: http.StatusNotFound,
+			Type: "error_result_01",
+		}
+		return &outletProduct, err
+	}
+
+	return &outletProduct, schemas.DatabaseError{}
+}
