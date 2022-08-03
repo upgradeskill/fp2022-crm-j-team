@@ -33,7 +33,7 @@ func (handler *Transaction) Create(c echo.Context) error {
 		return nil
 	}
 
-	helpers.APIResponse(c, "Success", http.StatusCreated, nil)
+	helpers.APIResponse(c, "Transaction created successfully", http.StatusCreated, nil)
 	return nil
 }
 
