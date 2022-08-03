@@ -27,6 +27,10 @@ func Category(category ports.Category) *handleCategory {
 func (h *handleCategory) Create(c echo.Context) error {
 	category := new(schemas.Category)
 
+	if err := c.Bind(category); err != nil {
+		helpers.ErrorResponse(c, err)
+	}
+
 	_, err := h.category.Create(category)
 
 	if err.Code != 0 {
@@ -47,6 +51,10 @@ func (h *handleCategory) Update(c echo.Context) error {
 	category := new(schemas.Category)
 	id := c.Param("id")
 	category.ID = id
+
+	if err := c.Bind(category); err != nil {
+		helpers.ErrorResponse(c, err)
+	}
 
 	_, err := h.category.Update(category)
 
@@ -112,6 +120,10 @@ func (h *handleCategory) Delete(c echo.Context) error {
 	category := new(schemas.Category)
 	id := c.Param("id")
 	category.ID = id
+
+	if err := c.Bind(category); err != nil {
+		helpers.ErrorResponse(c, err)
+	}
 
 	_, err := h.category.Delete(category)
 
