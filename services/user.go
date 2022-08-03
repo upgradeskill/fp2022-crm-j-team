@@ -24,7 +24,7 @@ func NewServiceUser(user ports.UserRepositoryInterface) *serviceUser {
 *===========================================
  */
 func (s *serviceUser) Login(input *schemas.UserLogin) (interface{}, schemas.DatabaseError) {
-	res, err := s.user.Login(input.Email, input.Password)
+	res, err := s.user.Login(input.Email)
 	if res.ID == "" {
 		return res, schemas.DatabaseError{
 			Code: http.StatusUnprocessableEntity,
@@ -32,7 +32,16 @@ func (s *serviceUser) Login(input *schemas.UserLogin) (interface{}, schemas.Data
 		}
 	}
 
+	checkIsPasswordVerified := pkg.CheckPasswordHash(input.Password, res.Password)
+	if !checkIsPasswordVerified {
+		return res, schemas.DatabaseError{
+			Code: http.StatusUnprocessableEntity,
+			Type: "password wrong",
+		}
+	}
+
 	token, _ := pkg.GenerateTokenJwt(res.ID, res.Email, res.Role, res.OutletId)
+
 	return map[string]string{
 		"id":        res.ID,
 		"email":     res.Email,
@@ -47,27 +56,33 @@ func (s *serviceUser) Login(input *schemas.UserLogin) (interface{}, schemas.Data
 * Service Create User
 *===========================================
  */
-func (s *serviceUser) Create(input *schemas.User) (*schemas.User, schemas.DatabaseError) {
+func (s *serviceUser) Create(input *schemas.User) (*models.User, schemas.DatabaseError) {
 	result, err := s.user.CheckEmailExistOnCreate(input.Email)
 	if result.ID != "" {
-		return nil, schemas.DatabaseError{
+		return result, schemas.DatabaseError{
 			Code: http.StatusUnprocessableEntity,
 			Type: "user already exists",
+		}
+	}
+
+	if input.Role != "owner" && input.Role != "staff" {
+		return result, schemas.DatabaseError{
+			Code: http.StatusUnprocessableEntity,
+			Type: "role must between 'owner' or 'staff'",
 		}
 	}
 
 	user := models.User{
 		Name:      input.Name,
 		Email:     input.Email,
-		Password:  input.Password,
+		Password:  pkg.HashPassword(input.Password),
 		Role:      input.Role,
 		OutletId:  input.OutletId,
 		CreatedBy: helpers.SessionUser().ID,
 	}
 
 	res, err := s.user.Create(&user)
-	input.ID = res.ID
-	return input, err
+	return res, err
 }
 
 /**
@@ -75,21 +90,25 @@ func (s *serviceUser) Create(input *schemas.User) (*schemas.User, schemas.Databa
 * Service Update User
 *===========================================
  */
-func (s *serviceUser) Update(input *schemas.User) (*schemas.User, schemas.DatabaseError) {
-	notfound, _ := s.user.Get(input.ID)
+func (s *serviceUser) Update(input *schemas.User) (*models.User, schemas.DatabaseError) {
+	notfound, err := s.user.Get(input.ID)
 	if notfound.ID == "" {
-		return nil, schemas.DatabaseError{
+		return notfound, schemas.DatabaseError{
 			Code: http.StatusNotFound,
 			Type: "user not found",
 		}
 	}
 
-	exist, _ := s.user.CheckEmailExistOnUpdate(input.Email, input.ID)
+	exist, err := s.user.CheckEmailExistOnUpdate(input.Email, input.ID)
 	if exist.ID != "" {
-		return nil, schemas.DatabaseError{
+		return exist, schemas.DatabaseError{
 			Code: http.StatusUnprocessableEntity,
 			Type: "user already exists",
 		}
+	}
+
+	if input.Password != "" {
+		input.Password = pkg.HashPassword(input.Password)
 	}
 
 	user := models.User{
@@ -102,8 +121,8 @@ func (s *serviceUser) Update(input *schemas.User) (*schemas.User, schemas.Databa
 		UpdatedBy: helpers.SessionUser().ID,
 	}
 
-	_, err := s.user.Update(&user)
-	return input, err
+	res, err := s.user.Update(&user)
+	return res, err
 }
 
 /**
@@ -111,10 +130,10 @@ func (s *serviceUser) Update(input *schemas.User) (*schemas.User, schemas.Databa
 * Service Soft Delete User
 *===========================================
  */
-func (s *serviceUser) Delete(input *schemas.User) (*schemas.User, schemas.DatabaseError) {
-	found, _ := s.user.Get(input.ID)
+func (s *serviceUser) Delete(input *schemas.User) (*models.User, schemas.DatabaseError) {
+	found, err := s.user.Get(input.ID)
 	if found.ID == "" {
-		return nil, schemas.DatabaseError{
+		return found, schemas.DatabaseError{
 			Code: http.StatusNotFound,
 			Type: "user not found",
 		}
@@ -126,12 +145,7 @@ func (s *serviceUser) Delete(input *schemas.User) (*schemas.User, schemas.Databa
 	}
 
 	res, err := s.user.Delete(&user)
-	input.ID = res.ID
-	input.Email = res.Email
-	input.OutletId = res.OutletId
-	input.Role = res.Role
-	input.Name = res.Name
-	return input, err
+	return res, err
 }
 
 /**
@@ -139,21 +153,16 @@ func (s *serviceUser) Delete(input *schemas.User) (*schemas.User, schemas.Databa
 * Service Get User by user id
 *===========================================
  */
-func (s *serviceUser) Get(input *schemas.User) (*schemas.User, schemas.DatabaseError) {
+func (s *serviceUser) Get(input *schemas.User) (*models.User, schemas.DatabaseError) {
 	res, err := s.user.Get(input.ID)
 	if res.ID == "" {
-		return nil, schemas.DatabaseError{
+		return res, schemas.DatabaseError{
 			Code: http.StatusNotFound,
 			Type: "user not found",
 		}
 	}
 
-	input.ID = res.ID
-	input.Email = res.Email
-	input.OutletId = res.OutletId
-	input.Role = res.Role
-	input.Name = res.Name
-	return input, err
+	return res, err
 }
 
 /**
@@ -161,7 +170,7 @@ func (s *serviceUser) Get(input *schemas.User) (*schemas.User, schemas.DatabaseE
 * Service Get all user
 *===========================================
  */
-func (s *serviceUser) GetAll() (*[]models.User, schemas.DatabaseError) {
-	res, err := s.user.GetAll()
+func (s *serviceUser) GetAll(input *schemas.User) (*[]models.User, schemas.DatabaseError) {
+	res, err := s.user.GetAll(input)
 	return res, err
 }

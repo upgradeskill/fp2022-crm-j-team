@@ -178,7 +178,7 @@ func TestSuccessGetAllUsers(t *testing.T) {
 	repo := repositories.NewRepositoryUser(db)
 	service := NewServiceUser(repo)
 
-	_, err := service.GetAll()
+	_, err := service.GetAll(&schemas.User{})
 
 	assert.Equal(t, "", err.Type, "Error Type must empty")
 }

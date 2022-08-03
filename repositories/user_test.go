@@ -6,6 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/upgradeskill/fp2022-crm-j-team/helpers"
 	"github.com/upgradeskill/fp2022-crm-j-team/models"
+	"github.com/upgradeskill/fp2022-crm-j-team/schemas"
 )
 
 var userModel = models.User{
@@ -73,7 +74,7 @@ func TestSuccessGetLogin(t *testing.T) {
 	db := helpers.SetupDatabaseTesting()
 	userRepository := NewRepositoryUser(db)
 
-	user, err := userRepository.Login(userModel.Email, userModel.Password)
+	user, err := userRepository.Login(userModel.Email)
 
 	assert.Equal(t, userModel.Email, user.Email, "Email must match")
 	assert.Equal(t, "", err.Type, "Error Type must blank")
@@ -88,7 +89,7 @@ func TestSuccessGetAllUser(t *testing.T) {
 	db := helpers.SetupDatabaseTesting()
 	userRepository := NewRepositoryUser(db)
 
-	_, err := userRepository.GetAll()
+	_, err := userRepository.GetAll(&schemas.User{})
 
 	assert.Equal(t, "", err.Type, "Error Type must blank")
 }

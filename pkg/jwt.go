@@ -23,7 +23,7 @@ func GenerateTokenJwt(ID string, Email string, Role string, OutletId string) (st
 
 	// Create token with claims
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	t, err := token.SignedString([]byte(SecretPublicKey))
+	t, err := token.SignedString([]byte(GodotEnv("JWT_SECRET_KEY")))
 	if err != nil {
 		return t, err
 	}
@@ -34,7 +34,7 @@ func GenerateTokenJwt(ID string, Email string, Role string, OutletId string) (st
 func VerifyToken(accessToken string) (jwt.MapClaims, error) {
 
 	token, err := jwt.Parse(accessToken, func(token *jwt.Token) (interface{}, error) {
-		return []byte(SecretPublicKey), nil
+		return []byte(GodotEnv("JWT_SECRET_KEY")), nil
 	})
 
 	if err != nil {

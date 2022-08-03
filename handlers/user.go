@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/go-playground/validator"
@@ -71,7 +72,7 @@ func (h *handleUser) Create(c echo.Context) error {
 
 	user, err := h.user.Create(userSchema)
 	if err.Code != 0 {
-		helpers.APIResponse(c, err.Type, err.Code, strings.Split(eValidation.Error(), "tag\n"))
+		helpers.APIResponse(c, err.Type, err.Code, nil)
 		return nil
 	}
 
@@ -106,7 +107,7 @@ func (h *handleUser) Update(c echo.Context) error {
 
 	user, err := h.user.Update(userSchema)
 	if err.Code != 0 {
-		helpers.APIResponse(c, err.Type, err.Code, strings.Split(eValidation.Error(), "tag\n"))
+		helpers.APIResponse(c, err.Type, err.Code, nil)
 		return nil
 	}
 
@@ -120,7 +121,15 @@ func (h *handleUser) Update(c echo.Context) error {
 *======================================
  */
 func (h *handleUser) GetAll(c echo.Context) error {
-	users, err := h.user.GetAll()
+	user := new(schemas.User)
+	user.ID = c.QueryParam("id")
+	user.Name = c.QueryParam("name")
+	user.Email = c.QueryParam("email")
+	user.OutletId = c.QueryParam("outlet_id")
+	user.Page, _ = strconv.Atoi(c.QueryParam("page"))
+	user.PageSize, _ = strconv.Atoi(c.QueryParam("page_size"))
+
+	users, err := h.user.GetAll(user)
 	if err.Code != 0 {
 		helpers.APIResponse(c, err.Type, err.Code, nil)
 		return nil

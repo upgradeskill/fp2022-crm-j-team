@@ -13,8 +13,6 @@ import (
 	"github.com/upgradeskill/fp2022-crm-j-team/routes"
 )
 
-var SessionUser = "123"
-
 func main() {
 
 	/**
@@ -79,7 +77,7 @@ func setupDatabase() *gorm.DB {
 	helpers.LogIfError(err, "Database migration failed")
 
 	// Import Seeder
-	// importSeeder(db)
+	models.CreateUserSeeder(db)
 
 	return db
 }
@@ -95,28 +93,4 @@ func setupApp() *echo.Echo {
 	app := echo.New()
 
 	return app
-}
-
-/**
-* ========================
-* Import Seeder
-* ========================
- */
-
-func importSeeder(db *gorm.DB) {
-	var users = []models.User{
-		{
-			Name:     "Test owner",
-			Role:     "owner",
-			Password: "owner",
-			Email:    "owner@majoo.id",
-		},
-		{
-			Name:     "Test staff",
-			Role:     "staff",
-			Password: "staff",
-			Email:    "staff@majoo.id",
-		},
-	}
-	db.Create(users)
 }

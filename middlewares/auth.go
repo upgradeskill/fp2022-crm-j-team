@@ -20,12 +20,12 @@ func Auth(allowedRole string) echo.MiddlewareFunc {
 					return nil
 				}
 
-				fmt.Print(user)
 				var token string = user["id"].(string)
 				var email string = user["email"].(string)
 				var role string = user["role"].(string)
 				var outletId string = ""
 
+				fmt.Print(role)
 				helpers.SetSession(token, email, role, outletId)
 
 				if allowedRole == "*" {
