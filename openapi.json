@@ -449,6 +449,214 @@
           }
         }
       }
+    },
+    "/outlet": {
+      "get": {
+        "security": [{ "JWT": [] }],
+        "tags": ["Outlet"],
+        "description": "list all outlet",
+        "summary": "list all outlet",
+        "responses": {
+          "200": {
+            "description": "Success get all outlet",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Outlet"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "security": [{ "JWT": [] }],
+        "tags": ["Outlet"],
+        "description": "create new outlet",
+        "summary": "create new outlet",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/CreateOrUpdateOutlet"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success Create Outlet",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "items": {
+                        "$ref": "#/components/schemas/Outlet"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/outlet/{id}": {
+      "get": {
+        "security": [{ "JWT": [] }],
+        "tags": ["Outlet"],
+        "description": "get outlet by id",
+        "summary": "get outlet by id",
+        "parameters": [
+          {
+            "required": true,
+            "name": "id",
+            "in": "path",
+            "description": "outlet id",
+            "schema": {
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success get Outlet",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "items": {
+                        "$ref": "#/components/schemas/Outlet"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [{ "JWT": [] }],
+        "tags": ["Outlet"],
+        "description": "update outlet by id",
+        "summary": "update outlet by id",
+        "parameters": [
+          {
+            "required": true,
+            "name": "id",
+            "in": "path",
+            "description": "outlet id",
+            "schema": {
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/CreateOrUpdateOutlet"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success get outlet",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "items": {
+                        "$ref": "#/components/schemas/Outlet"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [{ "JWT": [] }],
+        "tags": ["Outlet"],
+        "description": "delete outlet by id",
+        "summary": "delete outlet by id",
+        "parameters": [
+          {
+            "required": true,
+            "name": "id",
+            "in": "path",
+            "description": "outlet id",
+            "schema": {
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success delete outlet",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -513,6 +721,43 @@
             "type": "number"
           },
           "name": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateOrUpdateOutlet": {
+        "type": "object",
+        "items": {
+          "type": "object"
+        },
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "number"
+          },
+          "address": {
+            "type": "string"
+          }
+        }
+      },
+      "Outlet": {
+        "type": "object",
+        "items": {
+          "type": "object"
+        },
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "number"
+          },
+          "address": {
             "type": "string"
           }
         }
