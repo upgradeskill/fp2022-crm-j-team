@@ -26,7 +26,7 @@ func (s *serviceUser) Login(input *schemas.UserLogin) (*models.User, schemas.Dat
 	res, err := s.user.Login(input.Email, input.Password)
 	if res.ID == "" {
 		return res, schemas.DatabaseError{
-			Code: http.StatusBadRequest,
+			Code: http.StatusUnprocessableEntity,
 			Type: "user not found",
 		}
 	}

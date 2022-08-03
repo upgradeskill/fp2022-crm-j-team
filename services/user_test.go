@@ -84,7 +84,7 @@ func TestFailedLoginUserNotFound(t *testing.T) {
 
 	_, err := service.Login(&userLogin)
 
-	assert.Equal(t, http.StatusNotFound, err.Code, "Error Code must match")
+	assert.Equal(t, http.StatusUnprocessableEntity, err.Code, "Error Code must match")
 }
 
 /**
