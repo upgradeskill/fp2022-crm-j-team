@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"net/http"
 	"time"
 
 	"github.com/upgradeskill/fp2022-crm-j-team/helpers"
@@ -55,6 +56,14 @@ func (r *repositoryCategory) GetAll(input *schemas.Category) (*[]models.Category
 	db.Scopes(helpers.Paginate(input.Page, input.PageSize))
 	db.Debug().Find(&category)
 
+	if db.RowsAffected < 1 {
+		err := schemas.DatabaseError{
+			Code: http.StatusNotFound,
+			Type: "error_result_01",
+		}
+		return &category, err
+	}
+
 	return &category, schemas.DatabaseError{}
 }
 
@@ -71,6 +80,14 @@ func (r *repositoryCategory) Get(input *schemas.Category) (*models.Category, sch
 	db := r.db.Model(&category)
 
 	db.Debug().First(&category)
+
+	if db.RowsAffected < 1 {
+		err := schemas.DatabaseError{
+			Code: http.StatusNotFound,
+			Type: "error_result_01",
+		}
+		return &category, err
+	}
 
 	return &category, schemas.DatabaseError{}
 }

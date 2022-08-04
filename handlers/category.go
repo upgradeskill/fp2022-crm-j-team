@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -83,6 +84,11 @@ func (h *handleCategory) Get(c echo.Context) error {
 		helpers.ErrorResponse(c, err)
 	}
 
+	if err.Type == "error_result_01" {
+		helpers.APIResponse(c, fmt.Sprintf("Category data not found for this id %s ", category.ID), err.Code, nil)
+		return nil
+	}
+
 	helpers.APIResponse(c, "Success get data", http.StatusOK, res)
 	return nil
 }
@@ -104,6 +110,11 @@ func (h *handleCategory) GetAll(c echo.Context) error {
 
 	if err.Code != 0 {
 		helpers.ErrorResponse(c, err)
+	}
+
+	if err.Type == "error_result_01" {
+		helpers.APIResponse(c, fmt.Sprintf("Category data not found"), err.Code, nil)
+		return nil
 	}
 
 	helpers.APIResponse(c, "Success get category data", http.StatusOK, res)
