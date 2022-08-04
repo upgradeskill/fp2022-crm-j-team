@@ -23,7 +23,7 @@ func (repository *Transaction) Create(dto *schemas.Transaction) (*models.Transac
 		Qty:             dto.Qty,
 		OutletProductId: dto.OutletProductId,
 		StaffId:         dto.StaffId,
-		CreatedBy:       "system",
+		CreatedBy:       helpers.SessionUser().ID,
 	}
 
 	db := repository.db.Model(&transaction)
@@ -54,7 +54,7 @@ func (repository *Transaction) Update(transactionId string, dto *schemas.Transac
 		Qty:             dto.Qty,
 		OutletProductId: dto.OutletProductId,
 		StaffId:         dto.StaffId,
-		CreatedBy:       "system",
+		CreatedBy:       helpers.SessionUser().ID,
 	}
 
 	db := repository.db.Model(&transaction)
