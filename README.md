@@ -24,6 +24,11 @@
     - PUT api/v1/users/:id
     - DELETE api/v1/users/:ID
  - Outlet
+   - POST api/v1/outlet
+   - GET api/v1/outlet
+   - GET api/v1/outlet/:id
+   - PUT api/v1/outlet/:id
+   - DELETE api/v1/outlet/:id
  - Category
     - POST api/v1/category
     - GET api/v1/category
@@ -37,3 +42,8 @@
     - PUT api/v1/product/:id
     - DELETE api/v1/product/:id
  - Transaction
+   - POST api/v1/transaction
+   - GET api/v1/transaction
+   - GET api/v1/transaction/:id
+   - PUT api/v1/transaction/:id
+   - DELETE api/v1/transaction/:id
