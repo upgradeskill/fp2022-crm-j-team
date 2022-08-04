@@ -19,10 +19,11 @@
 ## API List
  - User
     - POST api/v1/login
+    - POST api/v1/users
     - GET api/v1/users
     - GET api/v1/users/:id
     - PUT api/v1/users/:id
-    - DELETE api/v1/users/:ID
+    - DELETE api/v1/users/:id
  - Outlet
    - POST api/v1/outlet
    - GET api/v1/outlet
