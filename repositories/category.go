@@ -29,7 +29,7 @@ func (r *repositoryCategory) Create(input *schemas.Category) (*models.Category, 
 	category.ID = input.ID
 	category.Name = input.Name
 	category.Description = input.Description
-	category.CreatedBy = "system"
+	category.CreatedBy = helpers.SessionUser().Email
 
 	db := r.db.Model(&category)
 
@@ -55,14 +55,6 @@ func (r *repositoryCategory) GetAll(input *schemas.Category) (*[]models.Category
 
 	db.Scopes(helpers.Paginate(input.Page, input.PageSize))
 	db.Debug().Find(&category)
-
-	if db.RowsAffected < 1 {
-		err := schemas.DatabaseError{
-			Code: http.StatusNotFound,
-			Type: "error_result_01",
-		}
-		return &category, err
-	}
 
 	return &category, schemas.DatabaseError{}
 }
@@ -104,7 +96,7 @@ func (r *repositoryCategory) Update(input *schemas.Category) (*models.Category, 
 	category.Name = input.Name
 	category.Description = input.Description
 	category.UpdatedAt = time.Now()
-	category.UpdatedBy = "system"
+	category.UpdatedBy = helpers.SessionUser().Email
 
 	db := r.db.Model(&category)
 
