@@ -145,8 +145,8 @@ flowchart LR
 - **MODELS:** Kumpulan struct yang merepresentasikan struktur table pada database
 - **SCHEMAS:** Kumpulan struct yang merepresentasikan request payload dan response payload
 
-## 6 API List
-
+## 5. API List
+[See Full Api Documentation / Payload Contract Here](https://cahkampung052.github.io/mini-pos-doc/)
 - **Auth**
   - POST api/v1/login
 - **User**
