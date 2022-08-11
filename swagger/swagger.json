@@ -1862,7 +1862,7 @@
             "type": "string"
           },
           "category_id": {
-            "type": "number"
+            "type": "string"
           }
         }
       },
@@ -1882,7 +1882,7 @@
             "type": "string"
           },
           "category_id": {
-            "type": "number"
+            "type": "string"
           }
         }
       },
@@ -1929,14 +1929,17 @@
           "type": "object"
         },
         "properties": {
-          "name": {
+          "outlet_id": {
             "type": "string"
           },
-          "phone": {
+          "product_id": {
+            "type": "string"
+          },
+          "price": {
             "type": "number"
           },
-          "address": {
-            "type": "string"
+          "stock": {
+            "type": "number"
           }
         }
       },
@@ -1949,14 +1952,17 @@
           "id": {
             "type": "number"
           },
-          "name": {
+          "outlet_id": {
             "type": "string"
           },
-          "phone": {
+          "product_id": {
+            "type": "string"
+          },
+          "price": {
             "type": "number"
           },
-          "address": {
-            "type": "string"
+          "stock": {
+            "type": "number"
           }
         }
       }
