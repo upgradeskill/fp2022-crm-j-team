@@ -2,12 +2,14 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/labstack/echo/v4"
-	"github.com/sirupsen/logrus"
+	"github.com/labstack/echo/v4/middleware"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 
+	"github.com/upgradeskill/fp2022-crm-j-team/helpers"
 	"github.com/upgradeskill/fp2022-crm-j-team/models"
 	"github.com/upgradeskill/fp2022-crm-j-team/pkg"
 	"github.com/upgradeskill/fp2022-crm-j-team/routes"
@@ -31,7 +33,11 @@ func main() {
 	 */
 
 	routes.Product(db, app)
-	routes.NewRouteCategory(app)
+	routes.Outlet(db, app)
+	routes.NewRouteCategory(db, app)
+	routes.NewRouteUser(db, app)
+	routes.Transaction(db, app)
+	routes.OutletProduct(db, app)
 
 	/**
 	* ========================
@@ -40,11 +46,8 @@ func main() {
 	 */
 
 	err := app.Start(":" + pkg.GodotEnv("PORT"))
+	helpers.LogIfError(err, "Server is not running")
 
-	if err != nil {
-		defer logrus.Error("Server is not running")
-		logrus.Fatal(err)
-	}
 }
 
 /**
@@ -65,11 +68,7 @@ func setupDatabase() *gorm.DB {
 				pkg.GodotEnv("MYSQL_DB"),
 			)), &gorm.Config{})
 
-	if err != nil {
-		defer logrus.Info("Database connection failed")
-		logrus.Fatal(err)
-		return nil
-	}
+	helpers.LogIfError(err, "Database connection failed")
 
 	//  Initialize all model for auto migration here
 	err = db.AutoMigrate(
@@ -77,13 +76,14 @@ func setupDatabase() *gorm.DB {
 		&models.Product{},
 		&models.Outlet{},
 		&models.OutletProduct{},
+		&models.User{},
+		&models.Transaction{},
 	)
 
-	if err != nil {
-		defer logrus.Info("Database migration failed")
-		logrus.Fatal(err)
-		return nil
-	}
+	helpers.LogIfError(err, "Database migration failed")
+
+	// Import Seeder
+	models.CreateUserSeeder(db)
 
 	return db
 }
@@ -97,6 +97,12 @@ func setupDatabase() *gorm.DB {
 func setupApp() *echo.Echo {
 
 	app := echo.New()
+
+	app.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+		AllowMethods: []string{http.MethodGet, http.MethodPut, http.MethodPost, http.MethodDelete},
+	}))
 
 	return app
 }

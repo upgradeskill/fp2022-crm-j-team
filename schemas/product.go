@@ -5,4 +5,6 @@ type Product struct {
 	Name       string `json:"name" form:"name" validate:"required,lowercase"`
 	SKU        uint64 `json:"sku" form:"sku" validate:"required,numeric"`
 	CategoryId string `json:"category_id" form:"category_id" validate:"required,uuid"`
+	Page       int    `json:"page"`
+	PageSize   int    `json:"page_size"`
 }

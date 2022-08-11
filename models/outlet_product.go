@@ -2,6 +2,9 @@ package models
 
 import (
 	"time"
+
+	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 type OutletProduct struct {
@@ -10,10 +13,21 @@ type OutletProduct struct {
 	ProductId string    `json:"product_id" xml:"product_id" form:"product_id" query:"product_id" gorm:"type:varchar(255);NOT NULL;index"`
 	Price     float64   `json:"price" xml:"price" form:"price" query:"price" gorm:"type:double;NOT NULL;default:0"`
 	Stock     int       `json:"stock" xml:"stock" form:"stock" query:"stock" gorm:"type:int(11);NOT NULL;default:0"`
-	CreatedAt time.Time `json:"created_at" xml:"created_at" query:"created_at" gorm:"NOT NULL;default:CURRENT_TIMESTAMP"`
-	UpdatedAt time.Time `json:"updated_at" xml:"updated_at" query:"updated_at" gorm:"NOT NULL;default:CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"`
+	CreatedAt time.Time `json:"created_at" xml:"created_at" query:"created_at" gorm:"NOT NULL"`
+	UpdatedAt time.Time `json:"updated_at" xml:"updated_at" query:"updated_at" gorm:"NOT NULL"`
 	DeletedAt time.Time `json:"deleted_at" xml:"deleted_at" query:"deleted_at"`
 	CreatedBy string    `json:"created_by" xml:"created_by" query:"created_by" gorm:"type:varchar(255)"`
 	UpdatedBy string    `json:"updated_by" xml:"updated_by" query:"updated_by" gorm:"type:varchar(255)"`
 	DeletedBy string    `json:"deleted_by" xml:"deleted_by" query:"deleted_by" gorm:"type:varchar(255)"`
+}
+
+func (m *OutletProduct) BeforeCreate(db *gorm.DB) error {
+	m.ID = uuid.NewString()
+	m.CreatedAt = time.Now()
+	return nil
+}
+
+func (m *OutletProduct) BeforeUpdate(db *gorm.DB) error {
+	m.UpdatedAt = time.Now()
+	return nil
 }

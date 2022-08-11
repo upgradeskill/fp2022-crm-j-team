@@ -9,13 +9,13 @@ import (
 	"gorm.io/gorm"
 )
 
-func NewRouteCategory(db *gorm.DB, router *echo.Echo) {
+func Outlet(db *gorm.DB, router *echo.Echo) {
 
-	repository := repositories.Category(db)
-	service := services.Category(repository)
-	handler := handlers.Category(service)
+	repository := repositories.Outlet(db)
+	service := services.Outlet(repository)
+	handler := handlers.Outlet(service)
 
-	route := router.Group("/api/v1/category")
+	route := router.Group("/api/v1/outlet")
 	route.GET("", handler.GetAll, middlewares.Auth("owner"))
 	route.GET("/:id", handler.Get, middlewares.Auth("owner"))
 	route.POST("", handler.Create, middlewares.Auth("owner"))
