@@ -40,6 +40,11 @@ func main() {
 	routes.OutletProduct(db, app)
 
 	/**
+	Swagger
+	*/
+	app.Static("/swagger", "swagger")
+
+	/**
 	* ========================
 	*  Listening Server Port
 	* ========================
