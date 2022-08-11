@@ -9,7 +9,7 @@
     "/login": {
       "post": {
         "security": [{ "JWT": [] }],
-        "tags": ["Users"],
+        "tags": ["Auth"],
         "description": "Login to Systems",
         "summary": "Login to Systems",
         "requestBody": {
