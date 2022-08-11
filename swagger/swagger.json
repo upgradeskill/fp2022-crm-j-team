@@ -94,19 +94,6 @@
         "summary": "Get All Users",
         "parameters": [
           {
-            "required": true,
-            "name": "Authorization",
-            "in": "header",
-            "description": "Token JWT",
-            "schema": {
-              "properties": {
-                "name": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          {
             "required": false,
             "name": "outlet_id",
             "in": "query",
@@ -316,19 +303,6 @@
         "parameters": [
           {
             "required": true,
-            "name": "Authorization",
-            "in": "header",
-            "description": "Token JWT",
-            "schema": {
-              "properties": {
-                "name": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          {
-            "required": true,
             "name": "id",
             "in": "path",
             "description": "Users ID",
@@ -463,19 +437,6 @@
         "parameters": [
           {
             "required": true,
-            "name": "Authorization",
-            "in": "header",
-            "description": "Token JWT",
-            "schema": {
-              "properties": {
-                "name": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          {
-            "required": true,
             "name": "id",
             "in": "path",
             "description": "Users ID",
@@ -604,19 +565,6 @@
         "description": "Delete existing users",
         "summary": "Delete existing users",
         "parameters": [
-          {
-            "required": true,
-            "name": "Authorization",
-            "in": "header",
-            "description": "Token JWT",
-            "schema": {
-              "properties": {
-                "name": {
-                  "type": "string"
-                }
-              }
-            }
-          },
           {
             "required": true,
             "name": "id",
@@ -1742,7 +1690,7 @@
       "JWT": {
         "type": "apiKey",
         "in": "header",
-        "name": "token",
+        "name": "Authorization",
         "description": "Authentication for REST API"
       }
     },
