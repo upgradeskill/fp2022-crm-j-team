@@ -35,6 +35,7 @@ API Mini POS ini terdiri dari 6 Resource :
 ```mermaid
 erDiagram
     USER ||--|{ OUTLET : has
+    USER ||--|{ TRANSACTION : has
     USER {
         varchar id PK
         varchar name
@@ -88,13 +89,26 @@ erDiagram
         string updated_by
         string deleted_by
     }
-    OUTLET_PRODUCT
+    OUTLET_PRODUCT ||--|{ TRANSACTION : has
     OUTLET_PRODUCT {
         varchar id PK
         varchar outlet_id FK
         varchar product_id FK
         double price
         int stock
+        datetime created_at
+        datetime updated_at
+        datetime deleted_at
+        string created_by
+        string updated_by
+        string deleted_by
+    }
+    TRANSACTION 
+    TRANSACTION {
+        varchar id PK
+        varchar outlet_product_id FK
+        varchar staff_id FK
+        int qty
         datetime created_at
         datetime updated_at
         datetime deleted_at
