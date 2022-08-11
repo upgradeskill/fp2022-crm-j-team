@@ -131,4 +131,35 @@ flowchart LR
 - **MODELS:** Kumpulan struct yang merepresentasikan struktur table pada database
 - **SCHEMAS:** Kumpulan struct yang merepresentasikan request payload dan response payload
 
-
+## API List
+ - User
+    - POST api/v1/login
+    - POST api/v1/users
+    - GET api/v1/users
+    - GET api/v1/users/:id
+    - PUT api/v1/users/:id
+    - DELETE api/v1/users/:id
+ - Outlet
+   - POST api/v1/outlet
+   - GET api/v1/outlet
+   - GET api/v1/outlet/:id
+   - PUT api/v1/outlet/:id
+   - DELETE api/v1/outlet/:id
+ - Category
+    - POST api/v1/category
+    - GET api/v1/category
+    - GET api/v1/category/:id
+    - PUT api/v1/category/:id
+    - DELETE api/v1/category/:id
+ - Product
+    - POST api/v1/product
+    - GET api/v1/product
+    - GET api/v1/product/:id
+    - PUT api/v1/product/:id
+    - DELETE api/v1/product/:id
+ - Transaction
+   - POST api/v1/transaction
+   - GET api/v1/transaction
+   - GET api/v1/transaction/:id
+   - PUT api/v1/transaction/:id
+   - DELETE api/v1/transaction/:id
