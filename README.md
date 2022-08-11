@@ -151,6 +151,18 @@ flowchart LR
 
 - **Login**
   - POST api/v1/login
+  - Untuk login bisa menggunakan data seed berikut ini :
+
+**Akses Owner** 
+``` 
+email: owner@majoo.id
+password: owner
+``` 
+**Akses Staff**
+``` 
+email: staff@majoo.id
+password: staff
+```
 - **User**
   - POST api/v1/users
   - GET api/v1/users
