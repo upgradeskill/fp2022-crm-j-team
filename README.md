@@ -1,7 +1,7 @@
-
 # API Mini POS - Golang
 
-API Mini POS ini terdiri dari 6 Resource : 
+API Mini POS ini terdiri dari 6 Resource :
+
 - Users
 - Outlets
 - Categories
@@ -9,28 +9,27 @@ API Mini POS ini terdiri dari 6 Resource :
 - Outlet Products
 - Transactions
 
-
 ## 1. Set Up Project
 
- - Clone this repository
- - Pindahkan file `.env.example` ke dalam folder cmd
- - Sesuaikan konfigurasi yang terdapat pada file `.env.example`
- - Rename file `.env.example` menjadi `.env`
- - Jalankan perintah
-    ```
-    go mod tidy
-    ```
+- Clone this repository
+- Pindahkan file `.env.example` ke dalam folder cmd
+- Sesuaikan konfigurasi yang terdapat pada file `.env.example`
+- Rename file `.env.example` menjadi `.env`
+- Jalankan perintah
+  ```
+  go mod tidy
+  ```
 
 ## 2. Run Project
 
- - Go to root folder
- - Jalankan perintah
-    ```
-    go run ./cmd/main.go
-    ```
+- Go to root folder
+- Jalankan perintah
+  ```
+  go run ./cmd/main.go
+  ```
 - Server akan berjalan pada `http://localhost:8000`
 
-## 3. ERD Mini POS 
+## 3. ERD Mini POS
 
 ```mermaid
 erDiagram
@@ -103,7 +102,7 @@ erDiagram
         string updated_by
         string deleted_by
     }
-    TRANSACTION 
+    TRANSACTION
     TRANSACTION {
         varchar id PK
         varchar outlet_product_id FK
@@ -121,12 +120,13 @@ erDiagram
 ## 4. Architecture
 
 ### 4.1 Main Layer
+
 ```mermaid
 flowchart LR
-    A[CMD/main.go] --> 
-    B(ROUTES) --> 
-    C(HANDLERS) --> 
-    D(SERVICES) --> 
+    A[CMD/main.go] -->
+    B(ROUTES) -->
+    C(HANDLERS) -->
+    D(SERVICES) -->
     E(REPOSITORY)
 ```
 
@@ -145,35 +145,39 @@ flowchart LR
 - **MODELS:** Kumpulan struct yang merepresentasikan struktur table pada database
 - **SCHEMAS:** Kumpulan struct yang merepresentasikan request payload dan response payload
 
-## 5 API List
- - **User**
-    - POST api/v1/login
-    - POST api/v1/users
-    - GET api/v1/users
-    - GET api/v1/users/:id
-    - PUT api/v1/users/:id
-    - DELETE api/v1/users/:id
- - **Outlet**
-   - POST api/v1/outlet
-   - GET api/v1/outlet
-   - GET api/v1/outlet/:id
-   - PUT api/v1/outlet/:id
-   - DELETE api/v1/outlet/:id
- - **Category**
-    - POST api/v1/category
-    - GET api/v1/category
-    - GET api/v1/category/:id
-    - PUT api/v1/category/:id
-    - DELETE api/v1/category/:id
- - **Product**
-    - POST api/v1/product
-    - GET api/v1/product
-    - GET api/v1/product/:id
-    - PUT api/v1/product/:id
-    - DELETE api/v1/product/:id
- - **Transaction**
-   - POST api/v1/transaction
-   - GET api/v1/transaction
-   - GET api/v1/transaction/:id
-   - PUT api/v1/transaction/:id
-   - DELETE api/v1/transaction/:id
+## 6 API List
+
+- **Auth**
+  - POST api/v1/login
+- **User**
+  - POST api/v1/users
+  - GET api/v1/users
+  - GET api/v1/users/:id
+  - PUT api/v1/users/:id
+  - DELETE api/v1/users/:id
+- **Outlet**
+  - POST api/v1/outlet
+  - GET api/v1/outlet
+  - GET api/v1/outlet/:id
+  - PUT api/v1/outlet/:id
+  - DELETE api/v1/outlet/:id
+- **Category**
+  - POST api/v1/category
+  - GET api/v1/category
+  - GET api/v1/category/:id
+  - PUT api/v1/category/:id
+  - DELETE api/v1/category/:id
+- **Product**
+  - POST api/v1/product
+  - GET api/v1/product
+  - GET api/v1/product/:id
+  - PUT api/v1/product/:id
+  - DELETE api/v1/product/:id
+- **Transaction**
+  - POST api/v1/transaction
+  - GET api/v1/transaction
+  - GET api/v1/transaction/:id
+  - PUT api/v1/transaction/:id
+  - DELETE api/v1/transaction/:id
+
+Untuk mengakses api via swagger-ui `http://localhost:8000/swagger`
