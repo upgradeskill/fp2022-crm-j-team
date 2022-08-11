@@ -1722,6 +1722,12 @@
         "properties": {
           "name": {
             "type": "string"
+          },
+          "sku": {
+            "type": "string"
+          },
+          "category_id": {
+            "type": "number"
           }
         }
       },
@@ -1736,6 +1742,12 @@
           },
           "name": {
             "type": "string"
+          },
+          "sku": {
+            "type": "string"
+          },
+          "category_id": {
+            "type": "number"
           }
         }
       },
