@@ -18,7 +18,7 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "email":{
+                  "email": {
                     "type": "string"
                   },
                   "password": {
@@ -713,12 +713,12 @@
         }
       }
     },
-    "/categories/results": {
+    "/category": {
       "get": {
         "security": [{ "JWT": [] }],
         "tags": ["Categories"],
-        "description": "list all categories",
-        "summary": "list all categories",
+        "description": "list all category",
+        "summary": "list all category",
         "parameters": [
           {
             "required": false,
@@ -749,7 +749,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success get all categories",
+            "description": "Success get all category",
             "content": {
               "application/json": {
                 "schema": {
@@ -811,7 +811,7 @@
         }
       }
     },
-    "/categories/{id}": {
+    "/category/{id}": {
       "get": {
         "security": [{ "JWT": [] }],
         "tags": ["Categories"],
