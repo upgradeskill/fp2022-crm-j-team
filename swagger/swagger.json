@@ -9,7 +9,7 @@
     "/login": {
       "post": {
         "security": [{ "JWT": [] }],
-        "tags": ["Auth"],
+        "tags": ["Login"],
         "description": "Login to Systems",
         "summary": "Login to Systems",
         "requestBody": {
@@ -1393,6 +1393,141 @@
         }
       }
     },
+    "/outlet-product": {
+      "post": {
+        "security": [{ "JWT": [] }],
+        "tags": ["Oultet Product"],
+        "description": "create new oulet product",
+        "summary": "create new oulet product",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/CreateOrUpdateOutletProduct"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success Create OutletProduct",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "items": {
+                        "$ref": "#/components/schemas/OutletProduct"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/outlet-product/{id}": {
+      "put": {
+        "security": [{ "JWT": [] }],
+        "tags": ["Oultet Product"],
+        "description": "update oulet product by id",
+        "summary": "update oulet product by id",
+        "parameters": [
+          {
+            "required": true,
+            "name": "id",
+            "in": "path",
+            "description": "product id",
+            "schema": {
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/CreateOrUpdateOutletProduct"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success get oulet product",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "items": {
+                        "$ref": "#/components/schemas/OutletProduct"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [{ "JWT": [] }],
+        "tags": ["Oultet Product"],
+        "description": "delete oulet product by id",
+        "summary": "delete oulet product by id",
+        "parameters": [
+          {
+            "required": true,
+            "name": "id",
+            "in": "path",
+            "description": "product id",
+            "schema": {
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success delete oulet product",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/transaction": {
       "get": {
         "security": [{ "JWT": [] }],
@@ -1769,6 +1904,43 @@
         }
       },
       "Outlet": {
+        "type": "object",
+        "items": {
+          "type": "object"
+        },
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "number"
+          },
+          "address": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateOrUpdateOutletProduct": {
+        "type": "object",
+        "items": {
+          "type": "object"
+        },
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "number"
+          },
+          "address": {
+            "type": "string"
+          }
+        }
+      },
+      "OutletProduct": {
         "type": "object",
         "items": {
           "type": "object"

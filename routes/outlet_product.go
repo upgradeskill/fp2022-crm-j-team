@@ -15,7 +15,7 @@ func OutletProduct(db *gorm.DB, router *echo.Echo) {
 	handler := handlers.OutletProduct(service)
 
 	route := router.Group("/api/v1/outlet-product")
-	route.POST("/create", handler.Create, middlewares.Auth("owner"))
-	route.PUT("/update/:id", handler.Update, middlewares.Auth("owner"))
-	route.DELETE("/delete/:id", handler.Update, middlewares.Auth("owner"))
+	route.POST("/", handler.Create, middlewares.Auth("owner"))
+	route.PUT("/:id", handler.Update, middlewares.Auth("owner"))
+	route.DELETE("/:id", handler.Update, middlewares.Auth("owner"))
 }

@@ -146,8 +146,10 @@ flowchart LR
 - **SCHEMAS:** Kumpulan struct yang merepresentasikan request payload dan response payload
 
 ## 5. API List
+
 [See Full Api Documentation / Payload Contract Here](https://cahkampung052.github.io/mini-pos-doc/)
-- **Auth**
+
+- **Login**
   - POST api/v1/login
 - **User**
   - POST api/v1/users
@@ -173,6 +175,10 @@ flowchart LR
   - GET api/v1/product/:id
   - PUT api/v1/product/:id
   - DELETE api/v1/product/:id
+- **Outlet Product**
+  - POST api/v1/outlet-product
+  - PUT api/v1/outlet-product/:id
+  - DELETE api/v1/outlet-product/:id
 - **Transaction**
   - POST api/v1/transaction
   - GET api/v1/transaction
