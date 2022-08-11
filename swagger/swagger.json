@@ -8,7 +8,7 @@
   "paths": {
     "/login": {
       "post": {
-        "security": [{ "JWT": [] }],
+        "security": [],
         "tags": ["Login"],
         "description": "Login to Systems",
         "summary": "Login to Systems",
