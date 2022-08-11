@@ -716,7 +716,7 @@
     "/category": {
       "get": {
         "security": [{ "JWT": [] }],
-        "tags": ["Categories"],
+        "tags": ["Category"],
         "description": "list all category",
         "summary": "list all category",
         "parameters": [
@@ -773,7 +773,7 @@
       },
       "post": {
         "security": [{ "JWT": [] }],
-        "tags": ["Categories"],
+        "tags": ["Category"],
         "description": "create new category",
         "summary": "create new category",
         "requestBody": {
@@ -814,7 +814,7 @@
     "/category/{id}": {
       "get": {
         "security": [{ "JWT": [] }],
-        "tags": ["Categories"],
+        "tags": ["Category"],
         "description": "get category by id",
         "summary": "get category by id",
         "parameters": [
@@ -858,7 +858,7 @@
       },
       "put": {
         "security": [{ "JWT": [] }],
-        "tags": ["Categories"],
+        "tags": ["Category"],
         "description": "update category by id",
         "summary": "update category by id",
         "parameters": [
@@ -912,7 +912,7 @@
       },
       "delete": {
         "security": [{ "JWT": [] }],
-        "tags": ["Categories"],
+        "tags": ["Category"],
         "description": "delete category by id",
         "summary": "delete category by id",
         "parameters": [
@@ -933,6 +933,242 @@
         "responses": {
           "200": {
             "description": "Success delete category",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/product": {
+      "get": {
+        "security": [{ "JWT": [] }],
+        "tags": ["Product"],
+        "description": "list all product",
+        "summary": "list all product",
+        "parameters": [
+          {
+            "required": false,
+            "name": "name",
+            "in": "query",
+            "description": "Product Name",
+            "schema": {
+              "properties": {
+                "name": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          {
+            "required": false,
+            "name": "page",
+            "in": "query",
+            "description": "Product Page",
+            "schema": {
+              "properties": {
+                "page": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success get all product",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Product"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "security": [{ "JWT": [] }],
+        "tags": ["Product"],
+        "description": "create new product",
+        "summary": "create new product",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/CreateOrUpdateProduct"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success Create Product",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "items": {
+                        "$ref": "#/components/schemas/Product"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/product/{id}": {
+      "get": {
+        "security": [{ "JWT": [] }],
+        "tags": ["Product"],
+        "description": "get product by id",
+        "summary": "get product by id",
+        "parameters": [
+          {
+            "required": true,
+            "name": "id",
+            "in": "path",
+            "description": "product id",
+            "schema": {
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success get product",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "items": {
+                        "$ref": "#/components/schemas/Product"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [{ "JWT": [] }],
+        "tags": ["Product"],
+        "description": "update product by id",
+        "summary": "update product by id",
+        "parameters": [
+          {
+            "required": true,
+            "name": "id",
+            "in": "path",
+            "description": "product id",
+            "schema": {
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/CreateOrUpdateProduct"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success get product",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "items": {
+                        "$ref": "#/components/schemas/Product"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [{ "JWT": [] }],
+        "tags": ["Product"],
+        "description": "delete product by id",
+        "summary": "delete product by id",
+        "parameters": [
+          {
+            "required": true,
+            "name": "id",
+            "in": "path",
+            "description": "product id",
+            "schema": {
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success delete product",
             "content": {
               "application/json": {
                 "schema": {
@@ -1465,6 +1701,31 @@
         }
       },
       "Category": {
+        "type": "object",
+        "items": {
+          "type": "object"
+        },
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateOrUpdateProduct": {
+        "type": "object",
+        "items": {
+          "type": "object"
+        },
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "Product": {
         "type": "object",
         "items": {
           "type": "object"
